@@ -59,9 +59,9 @@
                   d="M1 1h16" />
               </svg>
             </button>
-            <input type="text" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation"
-              class="h-11 text-center text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-500 dark:placeholder:text-gray-400 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 dark:text-white outline-none dark:focus:border-[#f04829] focus:border-[#f04829]"
-              placeholder="1" value="1" [(ngModel)]="quantity" name="quantity" required />
+            <input type="number" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation"
+              class="h-11 text-center text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-500 dark:placeholder:text-gray-400 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 dark:text-white outline-none dark:focus:border-violet-700 focus:border-violet-700"
+              value="1" [(ngModel)]="quantity" name="quantity" required />
             <button type="button" id="increment-button" (click)="increment()"
               class="p-3 bg-gray-100 border border-gray-200 dark:bg-[#2e3643] dark:hover:bg-[#2c323b] dark:border-[#343b46] hover:bg-gray-200 rounded-e-lg h-11 focus:outline-none">
               <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"

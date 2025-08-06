@@ -4,6 +4,7 @@ import { Web3Service } from '../../services/web3.service';
 import { initFlowbite } from 'flowbite';
 import { combineLatest } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-header',
@@ -22,12 +23,16 @@ export class HeaderComponent implements OnInit {
   // dropdownOpen: boolean = false;
   networks: any;
   lang: string = 'vi';
+  cartCount: number = 0;
 
-  constructor(public web3Service: Web3Service, private snackBar: MatSnackBar, public translate: TranslateService) {
+  constructor(public web3Service: Web3Service, private snackBar: MatSnackBar, public translate: TranslateService, private dataService: DataService) {
     this.web3Service.chainId$.subscribe((networkId: any) => {
       this.selectedNetwork = networkId;
       this.selectedNetworkImg = this.web3Service.chainConfig[this.selectedNetwork]?.logo || '';
       this.selectedNetworkName = this.web3Service.chainConfig[this.selectedNetwork]?.name || 'Unknown Network';
+    });
+    this.dataService.cartCount$.subscribe((count: number) => {
+      this.cartCount = count;
     });
   }
 

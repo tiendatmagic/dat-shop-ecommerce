@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -71,8 +72,32 @@ export class DataService {
     }
 
   ]
-
   cartItems: any[] = [];
+
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  public cartCount$ = this.cartCountSubject.asObservable();
+
+  constructor() { }
+
+  get cartCount(): number {
+    return this.cartCountSubject.value;
+  }
+  set cartCount(value: number) {
+    this.cartCountSubject.next(value);
+  }
+
+  ngOnInit() {
+    var getCartItems = localStorage.getItem('cartItems');
+
+    if (getCartItems) {
+      try {
+        this.cartItems = JSON.parse(getCartItems);
+      } catch (error) {
+        this.cartItems = [];
+      }
+    }
+    this.cartCount = this.cartItems.length;
+  }
 
   addToCart(product: any) {
     var getCartItems = localStorage.getItem('cartItems');
@@ -84,7 +109,8 @@ export class DataService {
         this.cartItems = [];
       }
     }
-    this.cartItems.push(product);
+    this.cartItems.unshift(product);
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    this.cartCount = this.cartItems.length;
   }
 }

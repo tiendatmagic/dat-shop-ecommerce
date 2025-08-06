@@ -40,7 +40,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Clean up subscription to prevent memory leaks
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
