@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './page/home/home.component';
 import { ContactComponent } from './page/contact/contact.component';
 import { TutorialComponent } from './page/tutorial/tutorial.component';
+import { ProductComponent } from './page/product/product.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: 'tutorial',
     component: TutorialComponent,
+  },
+  {
+    path: 'product/:id',
+    component: ProductComponent,
+    data: { title: 'Sản phẩm' },
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

@@ -20,6 +20,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HomeComponent } from './page/home/home.component';
 import { ContactComponent } from './page/contact/contact.component';
 import { TutorialComponent } from './page/tutorial/tutorial.component';
+import { ProductComponent } from './page/product/product.component';
 
 const globalRippleConfig: RippleGlobalOptions = {
   animation: {
@@ -41,7 +42,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotifyModalComponent,
     HomeComponent,
     ContactComponent,
-    TutorialComponent
+    TutorialComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
