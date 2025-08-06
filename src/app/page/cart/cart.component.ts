@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +14,7 @@ export class CartComponent {
   deliveryFee: number = 10;
   total: number = 0;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     const storedCart = localStorage.getItem('cartItems');
@@ -73,8 +74,10 @@ export class CartComponent {
 
   checkout() {
     console.log('Thanh toán với:', this.cartProducts);
-    localStorage.removeItem('cartItems');
-    this.cartProducts = [];
+
+    this.router.navigate(['/checkout']);
+    // localStorage.removeItem('cartItems');
+    // this.cartProducts = [];
     this.calculateSubtotal();
   }
 }

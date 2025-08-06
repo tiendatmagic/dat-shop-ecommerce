@@ -22,6 +22,7 @@ import { ContactComponent } from './page/contact/contact.component';
 import { TutorialComponent } from './page/tutorial/tutorial.component';
 import { ProductComponent } from './page/product/product.component';
 import { CartComponent } from './page/cart/cart.component';
+import { PlaceOrderComponent } from './page/place-order/place-order.component';
 
 const globalRippleConfig: RippleGlobalOptions = {
   animation: {
@@ -45,7 +46,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContactComponent,
     TutorialComponent,
     ProductComponent,
-    CartComponent
+    CartComponent,
+    PlaceOrderComponent
   ],
   imports: [
     BrowserModule,
