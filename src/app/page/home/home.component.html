@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-4 mt-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-6">
+  <div class="grid grid-cols-2 gap-4 mt-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6">
     <ng-container *ngFor="let product of productList">
       <a class="text-gray-700 cursor-pointer" routerLink="/product/{{ product.id }}">
         <div class="overflow-hidden">
@@ -54,7 +54,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-4 mt-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-6">
+  <div class="grid grid-cols-2 gap-4 mt-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6">
     <ng-container *ngFor="let product of bestSellerProducts;">
       <a class="text-gray-700 cursor-pointer" routerLink="/product/{{ product.id }}">
         <div class="overflow-hidden">

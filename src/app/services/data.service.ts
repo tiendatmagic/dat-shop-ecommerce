@@ -71,4 +71,20 @@ export class DataService {
     }
 
   ]
+
+  cartItems: any[] = [];
+
+  addToCart(product: any) {
+    var getCartItems = localStorage.getItem('cartItems');
+
+    if (getCartItems) {
+      try {
+        this.cartItems = JSON.parse(getCartItems);
+      } catch (error) {
+        this.cartItems = [];
+      }
+    }
+    this.cartItems.push(product);
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
 }
