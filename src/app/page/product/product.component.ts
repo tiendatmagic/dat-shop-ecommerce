@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class ProductComponent implements OnInit, OnDestroy {
   productData: any;
   selectedSize: string | null = null;
+  selectedImage: string | null = null;
   public id: any;
   productList: any[] = [];
   public routeSubscription: Subscription | undefined;
@@ -21,11 +22,15 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       window.scrollTo(0, 0);
+      this.selectedImage = null;
+      this.selectedSize = null;
       this.id = params.get('id');
       this.productList = this.dataService.productList;
       this.productData = this.dataService.productList.find(product => product.id == this.id);
       if (!this.productData) {
         console.error(`Product with ID ${this.id} not found`);
+      } else {
+        this.selectedImage = this.productData.image[0] || null;
       }
     });
   }
@@ -39,5 +44,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   selectSize(size: string) {
     this.selectedSize = size;
+  }
+
+  selectImage(image: string) {
+    this.selectedImage = image;
   }
 }
