@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+import { NotifyComponent } from '../modal/notify/notify.component';
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +79,7 @@ export class DataService {
   private cartCountSubject = new BehaviorSubject<number>(0);
   public cartCount$ = this.cartCountSubject.asObservable();
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   get cartCount(): number {
     return this.cartCountSubject.value;
@@ -99,5 +101,23 @@ export class DataService {
     this.cartItems.unshift(product);
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
     this.cartCount = this.cartItems.length;
+  }
+
+  showNotify(status: string, title: string, desc: string, disableClose: boolean = false, nrStatus: number = 0, value: any = '') {
+    this.dialog.closeAll();
+    this.dialog.open(NotifyComponent, {
+      disableClose: disableClose,
+      width: '90%',
+      maxWidth: '400px',
+      enterAnimationDuration: '100ms',
+      exitAnimationDuration: '100ms',
+      data: {
+        status: status,
+        title: title,
+        desc: desc,
+        nrStatus: nrStatus,
+        value: value,
+      }
+    });
   }
 }

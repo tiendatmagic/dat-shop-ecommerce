@@ -6,6 +6,8 @@ import { TutorialComponent } from './page/tutorial/tutorial.component';
 import { ProductComponent } from './page/product/product.component';
 import { CartComponent } from './page/cart/cart.component';
 import { PlaceOrderComponent } from './page/place-order/place-order.component';
+import { LoginComponent } from './page/login/login.component';
+import { RegisterComponent } from './page/register/register.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: PlaceOrderComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'checkout/:id',
