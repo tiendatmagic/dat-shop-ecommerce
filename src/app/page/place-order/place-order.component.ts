@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-place-order',
@@ -22,16 +23,18 @@ export class PlaceOrderComponent {
   phone: string = '';
   note: string = '';
 
-  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router) { }
+  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    const storedCart = localStorage.getItem('cartItems');
-    this.cartProducts = storedCart ? JSON.parse(storedCart) : [];
-    if (!this.cartProducts.length) {
-      this.router.navigate(['/cart']);
+    if (!this.id) {
+      const storedCart = localStorage.getItem('cartItems');
+      this.cartProducts = storedCart ? JSON.parse(storedCart) : [];
+      if (!this.cartProducts.length) {
+        this.router.navigate(['/cart']);
+      }
+      this.calculateTotal();
     }
-    this.calculateTotal();
   }
 
   calculateTotal() {
@@ -67,8 +70,11 @@ export class PlaceOrderComponent {
       })
       return;
     }
+    this.router.navigate(['/checkout', 123]);
 
-    console.log('ORDER DATA:', orderData);
+    this.cartProducts = [];
+    this.dataService.cartCount = this.cartProducts.length;
+    localStorage.removeItem('cartItems');
   }
 
   viewOrder() {

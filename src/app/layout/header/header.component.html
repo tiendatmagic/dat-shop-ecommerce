@@ -75,12 +75,14 @@
             </div>
           </div>
 
-          <div class="absolute z-30 flex items-center justify-center w-6 h-6 bg-red-500 rounded-full -right-2 -top-2"
-            *ngIf="cartCount > 0">
-            <span class="text-xs leading-none text-white">
-              {{ cartCount }}
-            </span>
-          </div>
+          <ng-container *ngIf="cartCount > 0">
+            <div class="absolute z-30 flex items-center justify-center w-6 h-6 bg-red-500 rounded-full -right-2 -top-2">
+              <span class="text-xs leading-none text-white">
+                {{ cartCount }}
+              </span>
+            </div>
+          </ng-container>
+
         </div>
       </div>
 

@@ -43,6 +43,10 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
+    path: 'checkout',
+    component: PlaceOrderComponent,
+  },
+  {
     path: 'checkout/:id',
     component: PlaceOrderComponent,
   },
