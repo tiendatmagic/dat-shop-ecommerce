@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './place-order.component.scss'
 })
 export class PlaceOrderComponent {
+  choosePaymentMethod: number = 1;
 
+  choosePayment(payment: number) {
+    this.choosePaymentMethod = payment;
+  }
 }

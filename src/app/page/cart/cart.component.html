@@ -3,12 +3,11 @@
     <div class="mb-3 text-2xl">
       <div class="flex justify-between">
         <div class="inline-flex items-center gap-2 mb-3">
-          <p class="font-medium">YOUR CART</p>
+          <p class="font-medium">Your Cart</p>
           <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
         </div>
         <div>
-          <button class="mt-3 btn-primary" matRipple matRippleColor="#ffffff66" (click)="clearCart()"
-            *ngIf="cartProducts.length">
+          <button class="mt-3 btn-outline-primary" matRipple (click)="clearCart()" *ngIf="cartProducts.length">
             DELETE ALL
           </button>
         </div>
@@ -84,7 +83,7 @@
           <div class="w-full">
             <div class="text-2xl">
               <div class="inline-flex items-center gap-2 mb-3">
-                <p class="font-medium">TOTAL</p>
+                <p class="font-medium">Total</p>
               </div>
             </div>
             <div class="flex flex-col gap-2 mt-2 text-sm">
