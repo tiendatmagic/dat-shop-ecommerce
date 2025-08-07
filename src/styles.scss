@@ -48,6 +48,10 @@ body {
     @apply bg-violet-700 px-4 py-3 active:disabled:scale-100 rounded-lg leading-5 text-sm text-white outline-none shadow-md min-w-20 transition-colors duration-200 bg-gradient-to-r from-[#ff0080] to-[#c300e4] disabled:bg-none disabled:shadow-none disabled:cursor-not-allowed;
   }
 
+  .btn-primary[disabled] {
+    @apply bg-gray-500 bg-opacity-50 min-w-20 transition-colors duration-200;
+  }
+
   .btn-outline-primary {
     @apply border-violet-700 border-[1px] px-4 py-3 active:disabled:scale-100 rounded-lg leading-5 text-sm text-violet-700 outline-none min-w-20 transition-colors duration-200 disabled:cursor-not-allowed;
   }

@@ -1,149 +1,200 @@
-<section class="py-3 antialiased bg-white">
-  <form action="#" class="max-w-screen-xl px-4 mx-auto mt-5 2xl:px-0">
+<ng-container *ngIf="!id">
+  <div
+    class="rounded-xl w-full overflow-auto border-[#ececec] dark:border-[#46525f] border-[1px] glass-effect not-bg-glass shadow-md relative max-w-screen-4xl p-3">
+    <section class="py-3 antialiased">
+      <form action="#" class="mx-auto mt-3 lg:px-3">
 
-    <div class="lg:flex lg:items-start lg:gap-6">
-      <div class="w-full space-y-8 lg:w-3/5 xl:w-4/6">
-        <div class="space-y-4">
-          <div class="inline-flex items-center gap-2 mb-3 text-2xl">
-            <p class="font-medium">Delivery Details</p>
-            <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
-          </div>
-
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label for="your_name" class="block mb-2 text-sm font-medium text-gray-900">Your name *
-              </label>
-              <input type="text" id="your_name"
-                class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
-                placeholder="Your name" required />
-            </div>
-
-            <div>
-              <label for="your_email" class="block mb-2 text-sm font-medium text-gray-900">Your email *
-              </label>
-              <input type="email" id="your_email"
-                class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
-                placeholder="Your email" required />
-            </div>
-
-            <div>
-              <div class="flex items-center gap-2 mb-2">
-                <label for="your_address-input-3" class="block text-sm font-medium text-gray-900"> Address *
-                </label>
+        <div class="lg:flex lg:items-start lg:gap-6">
+          <div class="w-full space-y-8 lg:w-3/5 xl:w-4/6">
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 mb-3 text-2xl">
+                <p class="font-medium">Delivery Details</p>
+                <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
               </div>
-              <input type="text" id="your_address"
-                class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
-                placeholder="Your address" required />
-            </div>
 
-            <div>
-              <label for="phone-input-3" class="block mb-2 text-sm font-medium text-gray-900"> Phone
-                * </label>
-              <div class="flex items-center">
-                <div class="relative w-full">
-                  <input type="text" id="phone-input"
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label for="your_name" class="block mb-2 text-sm font-medium text-gray-900">Your name <span
+                      class="text-red-500">*</span>
+                  </label>
+                  <input type="text" [(ngModel)]="name" name="name" id="your_name"
                     class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Your phone" required />
+                    placeholder="Your name" required />
                 </div>
-              </div>
-            </div>
-          </div>
 
-
-          <div>
-            <label for="phone-input-3" class="block mb-2 text-sm font-medium text-gray-900"> Note
-            </label>
-            <div class="flex items-center">
-              <div class="relative w-full">
-                <textarea name="" id=""
-                  class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
-                  placeholder="Your note"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="w-full mt-6 space-y-6 lg:w-2/5 xl:w-2/6 sm:mt-8 lg:mt-0">
-        <div class="flow-root">
-          <div class="-my-3 divide-y divide-gray-200">
-            <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-700">Subtotal</dt>
-              <dd class="text-base font-medium text-gray-900">$8,094.00</dd>
-            </dl>
-
-            <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-700">Savings</dt>
-              <dd class="text-base font-medium text-green-500">0</dd>
-            </dl>
-
-            <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-700">Store Pickup</dt>
-              <dd class="text-base font-medium text-gray-900">$99</dd>
-            </dl>
-
-            <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-normal text-gray-700">Tax</dt>
-              <dd class="text-base font-medium text-gray-900">$199</dd>
-            </dl>
-
-            <dl class="flex items-center justify-between gap-4 py-3">
-              <dt class="text-base font-bold text-gray-900">Total</dt>
-              <dd class="text-base font-bold text-gray-900">$8,392.00</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <div class="inline-flex items-center gap-2 mb-3 text-2xl">
-            <p class="font-medium">Payment</p>
-            <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
-          </div>
-
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div class="p-4 border rounded-lg cursor-pointer ps-4" matRipple
-              [ngClass]="choosePaymentMethod == 1 ? 'border-violet-700 bg-violet-200' : 'border-gray-200 bg-gray-50'"
-              (click)="choosePayment(1)">
-              <div class="flex items-start">
-                <div class="text-sm ms-4">
-                  <label for="cash-on-delivery" class="font-medium leading-none text-gray-900">
-                    <p>Cash on delivery</p>
-                    <p id="cash-on-delivery-text" class="mt-1 text-xs font-normal text-gray-700">
-                      Pay with cash upon delivery.
-                    </p>
+                <div>
+                  <label for="your_email" class="block mb-2 text-sm font-medium text-gray-900">Your email <span
+                      class="text-red-500">*</span>
                   </label>
+                  <input type="email" [(ngModel)]="email" name="email" id="your_email"
+                    class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
+                    placeholder="Your email" required />
+                </div>
+
+                <div>
+                  <div class="flex items-center gap-2 mb-2">
+                    <label for="your_address-input-3" class="block text-sm font-medium text-gray-900"> Address <span
+                        class="text-red-500">*</span>
+                    </label>
+                  </div>
+                  <input type="text" id="your_address" [(ngModel)]="address" name="address"
+                    class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
+                    placeholder="Your address" required />
+                </div>
+
+                <div>
+                  <label for="phone-input-3" class="block mb-2 text-sm font-medium text-gray-900"> Phone
+                    <span class="text-red-500">*</span> </label>
+                  <div class="flex items-center">
+                    <div class="relative w-full">
+                      <input type="text" id="phone-input" [(ngModel)]="phone" name="phone"
+                        class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg"
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Your phone" required />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label for="phone-input-3" class="block mb-2 text-sm font-medium text-gray-900"> Note
+                </label>
+                <div class="flex items-center">
+                  <div class="relative w-full">
+                    <textarea name="" id="" name="note" [(ngModel)]="note"
+                      class="text-gray-900 text-sm block w-full p-2.5 bg-[#fafafa] dark:bg-[#1b212c] focus:ring-0 placeholder:text-gray-700 border-[1px] border-[#ececec] dark:border-[#46525f] dark:placeholder-gray-400 outline-none dark:focus:border-violet-700 focus:border-violet-700 rounded-lg resize-none "
+                      placeholder="Your note"></textarea>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="p-4 border rounded-lg cursor-pointer ps-4" matRipple
-              [ngClass]="choosePaymentMethod == 2 ? 'border-violet-700 bg-violet-200' : 'border-gray-200 bg-gray-50'"
-              (click)="choosePayment(2)">
-              <div class="flex items-start">
-                <div class="text-sm ms-4">
-                  <label for="usdt" class="font-medium leading-none text-gray-900">
-                    <p>USDT - BEP20</p>
-                    <p id="usdt-text" class="mt-1 text-xs font-normal text-gray-700">
-                      Pay with USDT (Metamask).
-                    </p>
-                  </label>
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 mb-3 text-2xl">
+                <p class="font-medium">Cart</p>
+                <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
+              </div>
+
+              <ul role="list" class="-my-6 divide-y divide-gray-200">
+                <li *ngFor="let cart of cartProducts" class="flex py-3">
+                  <div class="flex-shrink-0 w-16 h-16 overflow-hidden border border-gray-200 rounded-md">
+                    <img src="{{ cart.image }}" alt="" class="object-cover object-center w-full h-full" />
+                  </div>
+
+                  <div class="flex flex-1 ml-4">
+                    <div class="flex flex-col flex-1">
+                      <div>
+                        <div class="flex justify-between text-base font-medium text-gray-900">
+                          <h3>
+                            <a href="#">{{ cart.name }}</a>
+                            <p>${{ cart.price | number:'1.0-2' }}</p>
+                          </h3>
+
+                          <p>X{{ cart.quantity }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="w-full mt-6 space-y-6 lg:w-2/5 xl:w-2/6 sm:mt-8 lg:mt-0">
+            <div class="flow-root">
+              <div class="-my-3 divide-y divide-gray-200">
+                <dl class="flex items-center justify-between gap-4 py-3">
+                  <dt class="text-base font-normal text-gray-700">Subtotal</dt>
+                  <dd class="text-base font-medium text-gray-900">${{ subtotal | number:'1.0-2' }}</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4 py-3">
+                  <dt class="text-base font-normal text-gray-700">Delivery Fee</dt>
+                  <dd class="text-base font-medium text-gray-900">${{ deliveryFee | number:'1.0-2' }}</dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4 py-3">
+                  <dt class="text-base font-semibold text-gray-900">Total</dt>
+                  <dd class="text-base font-semibold text-gray-900">${{ total | number:'1.0-2' }}</dd>
+                </dl>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="inline-flex items-center gap-2 mb-3 text-2xl">
+                <p class="font-medium">Payment</p>
+                <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
+              </div>
+
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="p-4 border rounded-lg cursor-pointer ps-4 bg-gray-50" matRipple
+                  [ngClass]="choosePaymentMethod == 1 ? 'border-violet-700' : 'border-gray-200'"
+                  (click)="choosePayment(1)">
+                  <div class="flex items-center">
+                    <div class="flex items-center justify-center rounded-full min-w-5 min-h-5"
+                      [ngClass]="choosePaymentMethod == 1 ? 'bg-green-500' : 'bg-transparent'">
+                    </div>
+                    <div class="text-sm ms-4">
+                      <label for="cash-on-delivery" class="font-medium leading-none text-gray-900">
+                        <p>Cash on delivery</p>
+                        <p id="cash-on-delivery-text" class="mt-1 text-xs font-normal text-gray-700">
+                          Pay with cash upon delivery.
+                        </p>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-4 border rounded-lg cursor-pointer ps-4 bg-gray-50" matRipple
+                  [ngClass]="choosePaymentMethod == 2 ? 'border-violet-700' : 'border-gray-200'"
+                  (click)="choosePayment(2)">
+                  <div class="flex items-center">
+                    <div class="flex items-center justify-center rounded-full min-w-5 min-h-5"
+                      [ngClass]="choosePaymentMethod == 2 ? 'bg-green-500' : 'bg-transparent'">
+                    </div>
+                    <div class="text-sm ms-4">
+                      <label for="usdt" class="font-medium leading-none text-gray-900">
+                        <p>USDT - BEP20</p>
+                        <p id="usdt-text" class="mt-1 text-xs font-normal text-gray-700">
+                          Pay with USDT (Metamask).
+                        </p>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div class="space-y-3">
+              <button type="button" class="w-full btn-primary" matRipple matRippleColor="#ffffff66"
+                (click)="proceedToPayment()" [disabled]="!name || !email || !address || !phone">
+                Proceed to Payment
+              </button>
+
+              <p class="text-sm font-normal text-gray-700">One or more items in your cart require an
+                account. <a routerLink="/login" title=""
+                  class="font-medium underline text-primary-700 hover:no-underline">Sign in or
+                  create
+                  an account now.</a>.</p>
             </div>
           </div>
         </div>
+      </form>
+    </section>
+  </div>
+</ng-container>
 
-        <div class="space-y-3">
-          <button type="button" class="w-full btn-primary" matRipple matRippleColor="#ffffff66">Proceed
-            to Payment</button>
+<ng-container *ngIf="id">
+  <div
+    class="rounded-xl w-full overflow-auto border-[#ececec] dark:border-[#46525f] border-[1px] glass-effect not-bg-glass shadow-md relative max-w-screen-4xl p-3 min-h-[300px] flex items-center justify-center">
+    <div class="leading-6">
+      <p class="mb-3 text-xl font-medium text-center text-green-500"> Thank you. Your order has been received.</p>
+      <p> Order number: 25117</p>
+      <p> Date: August 7, 2025</p>
+      <p>Total: $39,00</p>
+      <p> Payment method: Cash on delivery</p>
 
-          <p class="text-sm font-normal text-gray-700">One or more items in your cart require an
-            account. <a routerLink="/login" title=""
-              class="font-medium underline text-primary-700 hover:no-underline">Sign in or
-              create
-              an account now.</a>.</p>
-        </div>
-      </div>
+      <button class="w-full mt-3 btn-primary" matRipple matRippleColor="#ffffff66" (click)="viewOrder()">View
+        Order</button>
     </div>
-  </form>
-</section>
+  </div>
+</ng-container>

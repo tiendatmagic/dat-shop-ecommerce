@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CartComponent {
   cartProducts: any[] = [];
   subtotal: number = 0;
-  deliveryFee: number = 10;
+  deliveryFee: number = 5;
   total: number = 0;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }

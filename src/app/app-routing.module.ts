@@ -33,6 +33,10 @@ const routes: Routes = [
     component: PlaceOrderComponent,
   },
   {
+    path: 'checkout/:id',
+    component: PlaceOrderComponent,
+  },
+  {
     path: 'product/:id',
     component: ProductComponent,
   },

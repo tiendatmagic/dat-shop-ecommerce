@@ -86,19 +86,6 @@ export class DataService {
     this.cartCountSubject.next(value);
   }
 
-  ngOnInit() {
-    var getCartItems = localStorage.getItem('cartItems');
-
-    if (getCartItems) {
-      try {
-        this.cartItems = JSON.parse(getCartItems);
-      } catch (error) {
-        this.cartItems = [];
-      }
-    }
-    this.cartCount = this.cartItems.length;
-  }
-
   addToCart(product: any) {
     var getCartItems = localStorage.getItem('cartItems');
 
