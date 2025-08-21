@@ -1,5 +1,5 @@
 <div
-  class="rounded-xl w-full overflow-auto border-[#ececec] dark:border-[#46525f] border-[1px] glass-effect not-bg-glass shadow-md relative max-w-screen-4xl p-3">
+  class="rounded-lg w-full overflow-auto border-[#ececec] dark:border-[#46525f] border-[1px] glass-effect not-bg-glass shadow-md relative max-w-screen-4xl p-3">
   <div class="flex flex-col gap-12 sm:gap-3 md:gap-12 sm:flex-row">
     <div class="flex flex-col-reverse flex-1 gap-3 sm:flex-row">
       <div
@@ -39,7 +39,7 @@
         <div class="flex gap-2 mt-3">
           <ng-container *ngFor="let size of productData.size">
             <button
-              class="px-4 py-2 font-medium transition-all duration-200 ease-in-out border rounded-md cursor-pointer"
+              class="px-4 py-2 font-medium transition-all duration-200 ease-in-out border rounded-lg cursor-pointer"
               (click)="selectSize(size)"
               [ngClass]="{ 'bg-gradient-to-r from-[#0062ff] to-[#b300e4] text-white': size === selectedSize }">
               {{ size }}
@@ -89,7 +89,7 @@
 </div>
 
 <div
-  class="rounded-xl w-full overflow-auto border-[#ececec] dark:border-[#46525f] border-[1px] glass-effect not-bg-glass shadow-md relative max-w-screen-4xl mt-4 p-3">
+  class="rounded-lg w-full overflow-auto border-[#ececec] dark:border-[#46525f] border-[1px] glass-effect not-bg-glass shadow-md relative max-w-screen-4xl mt-4 p-3">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="150ms">
     <mat-tab label="Description">
       <div class="p-3">
@@ -107,7 +107,7 @@
           </div>
           <div>
             <div
-              class="bg-gray-100 dark:bg-[#404d5c] p-2 rounded-xl border-[1px] border-[#ebebeb] dark:border-[#3b3b3b]">
+              class="bg-gray-100 dark:bg-[#404d5c] p-2 rounded-lg border-[1px] border-[#ebebeb] dark:border-[#3b3b3b]">
               <p>User</p>
               <div class="flex items-center mt-1">
                 <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@
 
   <div class="grid grid-cols-2 gap-4 mt-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6">
     <ng-container *ngFor="let product of productList">
-      <a class="text-gray-700 cursor-pointer" routerLink="/product/{{ product.id }}">
+      <a class="overflow-auto text-gray-700 rounded-lg cursor-pointer" routerLink="/product/{{ product.id }}">
         <div class="overflow-hidden">
           <img class="transition duration-300 ease-in-out hover:scale-110" alt="" src="{{ product.image[0] }}" />
         </div>
