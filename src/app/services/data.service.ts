@@ -11,7 +11,7 @@ export class DataService {
     {
       id: 1,
       name: 'Football Jersey',
-      price: 30,
+      price: 1,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/b1devpuovnvqwdo8pfia.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/o7kcxzpkbvobb05iu949.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/iwopzvmpc5olrt7anheh.jpg'],
       size: ['S', 'M', 'XL', 'XXL'],
       isBestSeller: true,
@@ -75,6 +75,7 @@ export class DataService {
 
   ]
   cartItems: any[] = [];
+  deliveryFee: number = 1;
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   public cartCount$ = this.cartCountSubject.asObservable();

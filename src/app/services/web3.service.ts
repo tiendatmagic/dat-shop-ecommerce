@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import Web3 from 'web3';
 import { NotifyModalComponent } from '../modal/notify-modal/notify-modal.component';
 import EventTicketABI from '../../assets/abi/EventTicketABI.json';
+import { HttpClient } from '@angular/common/http';
 
 declare let window: any;
 
@@ -14,41 +15,52 @@ export class Web3Service {
   private web3: Web3 | null = null;
   private accountSubject = new BehaviorSubject<string>('');
   private balanceSubject = new BehaviorSubject<string>('0');
+  private USDTBalanceSubject = new BehaviorSubject<string>('0');
   private isConnectedSubject = new BehaviorSubject<boolean>(false);
   private chainIdSubject = new BehaviorSubject<any>('');
   private nativeSymbolSubject = new BehaviorSubject<string>('ETH');
   public isLoading$ = new BehaviorSubject<boolean>(false);
   private contract: any;
 
+  // USDT contract address on BSC
+  private readonly USDT_CONTRACT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
+
   selectedChainId: any;
   account$ = this.accountSubject.asObservable();
   balance$ = this.balanceSubject.asObservable();
+  USDTBalance$ = this.USDTBalanceSubject.asObservable();
   isConnected$ = this.isConnectedSubject.asObservable();
   chainId$ = this.chainIdSubject.asObservable();
   nativeSymbol$ = this.nativeSymbolSubject.asObservable();
 
   // Supported chains in the app
   public chainConfig: any = {
-    '0xa4b1': { symbol: 'ETH', name: 'Arbitrum One', logo: '/assets/images/logo/arb.png', rpcUrls: ['https://arb1.arbitrum.io/rpc'], contractAddress: '0x0000000000000000000000000000000000000000', abi: EventTicketABI }
+    '0x38': {
+      symbol: 'BNB',
+      name: 'Binance Smart Chain',
+      logo: '/assets/images/logo/bsc.png',
+      rpcUrls: ['https://bsc-dataseed.binance.org/'],
+      blockExplorerUrls: ['https://bscscan.com']
+    }
   };
 
-  constructor(private ngZone: NgZone, public dialog: MatDialog) {
-    // this.initWeb3();
-  }
+  constructor(
+    private ngZone: NgZone,
+    public dialog: MatDialog,
+    private http: HttpClient
+  ) { }
 
-  // Initialize Web3 with default RPC or MetaMask
   async initWeb3() {
     const savedChainId = localStorage.getItem('selectedChainId');
-    this.selectedChainId = savedChainId || '0xa4b1'; // Default is Arbitrum
+    this.selectedChainId = savedChainId || '0x38';
     await this.setChainInfo(); // Initialize Web3 with RPC
-
 
     if (typeof window.ethereum !== 'undefined') {
       this.web3 = new Web3(window.ethereum);
       try {
         const chainId = await window.ethereum.request({ method: 'eth_chainId' });
         if (!this.chainConfig[chainId]) {
-          await this.switchNetwork('0xa4b1'); // Switch to Arbitrum if unsupported
+          await this.switchNetwork('0x38');
         }
 
         const accounts = await this.web3.eth.getAccounts();
@@ -92,7 +104,7 @@ export class Web3Service {
 
         const account = this.accountSubject.value;
         if (account) {
-          await this.getBalance(account);
+          await this.setAccount(account);
         }
       });
     } else {
@@ -104,8 +116,8 @@ export class Web3Service {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 
-  // Connect user wallet
   async connectWallet(): Promise<boolean> {
+    await this.initWeb3();
     if (typeof window.ethereum !== 'undefined') {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -132,17 +144,19 @@ export class Web3Service {
   private async setAccount(account: string) {
     this.accountSubject.next(account);
     this.isConnectedSubject.next(true);
-    await this.getBalance(account);
+    await Promise.all([
+      this.getBalance(account),
+      this.getUSDTBalance(account)
+    ]);
   }
 
-  // Disconnect wallet
   disconnectWallet() {
     this.accountSubject.next('');
     this.balanceSubject.next('0');
+    this.USDTBalanceSubject.next('0');
     this.isConnectedSubject.next(false);
   }
 
-  // Get wallet balance
   private async getBalance(account: string) {
     if (this.web3 && account) {
       const balanceInWei = await this.web3.eth.getBalance(account);
@@ -151,14 +165,47 @@ export class Web3Service {
     }
   }
 
-  // Set network info with RPC provider
+  private async getUSDTBalance(account: string) {
+    if (!this.web3 || !account) {
+      this.USDTBalanceSubject.next('0');
+      return;
+    }
+
+    try {
+      // USDT ABI (minimal required for balanceOf)
+      const usdtAbi = [
+        {
+          constant: true,
+          inputs: [{ name: '_owner', type: 'address' }],
+          name: 'balanceOf',
+          outputs: [{ name: 'balance', type: 'uint256' }],
+          type: 'function'
+        }
+      ];
+
+      // Create USDT contract instance
+      const contract = new this.web3.eth.Contract(usdtAbi, this.USDT_CONTRACT_ADDRESS);
+      const balance: string = await contract.methods['balanceOf'](account).call();
+      if (!balance) {
+        this.USDTBalanceSubject.next('0');
+        return;
+      }
+
+      // Convert balance from wei-like units to USDT (assuming 6 decimals for USDT on BSC)
+      const balanceInUSDT = this.web3.utils.fromWei(balance, 'mwei'); // 6 decimals
+      this.USDTBalanceSubject.next(balanceInUSDT);
+    } catch (error) {
+      console.error('Failed to get USDT balance:', error);
+      this.USDTBalanceSubject.next('0');
+    }
+  }
+
   private async setChainInfo() {
     const chainId = this.selectedChainId;
-    const chain = this.chainConfig[chainId] || this.chainConfig['0xa4b1']; // Fallback to Arbitrum
-    this.chainIdSubject.next(chainId || '0xa4b1');
+    const chain = this.chainConfig[chainId] || this.chainConfig['0x38'];
+    this.chainIdSubject.next(chainId || '0x38');
     this.nativeSymbolSubject.next(chain.symbol);
 
-    // Initialize Web3 with RPC provider if no MetaMask
     if (!this.web3 || !window.ethereum) {
       this.web3 = new Web3(chain.rpcUrls[0]); // Use first RPC URL
     }
@@ -168,7 +215,6 @@ export class Web3Service {
     }
   }
 
-  // Switch network (for app, not wallet)
   async switchNetwork(chainId: string): Promise<void> {
     const formattedChainId = chainId.startsWith('0x') ? chainId.toLowerCase() : '0x' + parseInt(chainId).toString(16);
     if (!this.chainConfig[formattedChainId]) {
@@ -179,7 +225,6 @@ export class Web3Service {
     this.chainIdSubject.next(formattedChainId);
     localStorage.setItem('selectedChainId', formattedChainId);
 
-    // If MetaMask is available, try switching wallet network
     if (typeof window.ethereum !== 'undefined') {
       try {
         await window.ethereum.request({
@@ -216,12 +261,11 @@ export class Web3Service {
       }
     }
 
-    // Update Web3 instance and contract
     await this.setChainInfo();
 
     const account = this.accountSubject.value;
     if (account) {
-      await this.getBalance(account);
+      await this.setAccount(account);
     }
   }
 
@@ -255,7 +299,6 @@ export class Web3Service {
     }
     this.isLoading$.next(true);
     try {
-      // Fetch gas price
       const gasPrice = await this.web3.eth.getGasPrice();
 
       const result = await this.contract.methods.checkIn(tokenId).send({
@@ -273,8 +316,104 @@ export class Web3Service {
     await this.setAccount(this.accountSubject.value);
   }
 
-  // Show notification modal
-  showModal(title: string, message: string, status: string, showCloseBtn: boolean = true, disableClose: boolean = true, installMetamask: boolean = false) {
+  async transferUSDT(
+    tokenAddress: string,
+    merchantAddress: string,
+    amount: number,
+    decimals: number,
+    backendApi: string
+  ): Promise<any> {
+    if (!this.web3 || !this.accountSubject.value) {
+      this.showModal('Error', 'Please connect your wallet first.', 'error');
+      throw new Error('Wallet not connected');
+    }
+
+    try {
+      // Switch to BSC network if not already
+      await this.switchNetwork('0x38');
+
+      // USDT ABI (minimal required for transfer)
+      const usdtAbi = [
+        {
+          constant: false,
+          inputs: [
+            { name: '_to', type: 'address' },
+            { name: '_value', type: 'uint256' }
+          ],
+          name: 'transfer',
+          outputs: [{ name: '', type: 'bool' }],
+          type: 'function'
+        },
+        {
+          constant: true,
+          inputs: [{ name: '_owner', type: 'address' }],
+          name: 'balanceOf',
+          outputs: [{ name: 'balance', type: 'uint256' }],
+          type: 'function'
+        }
+      ];
+
+      // Create contract instance
+      const contract = new this.web3.eth.Contract(usdtAbi, tokenAddress);
+
+      // Convert amount to wei-like format considering decimals
+      const amountInWei = (amount * Math.pow(10, decimals)).toFixed(0);
+
+      // Check balance
+      const balance: string = await contract.methods['balanceOf'](this.accountSubject.value).call();
+      if (!balance) {
+        this.showModal('Error', 'Failed to retrieve balance.', 'error');
+        throw new Error('Failed to retrieve balance');
+      }
+
+      if (BigInt(balance) < BigInt(amountInWei)) {
+        this.showModal('Error', 'Insufficient USDT balance.', 'error');
+        throw new Error('Insufficient USDT balance');
+      }
+
+      // Estimate gas
+      const gasPrice = await this.web3.eth.getGasPrice();
+      const gasEstimate = await contract.methods['transfer'](merchantAddress, amountInWei)
+        .estimateGas({ from: this.accountSubject.value });
+
+      // Send transaction
+      const receipt = await contract.methods['transfer'](merchantAddress, amountInWei)
+        .send({
+          from: this.accountSubject.value,
+          gas: gasEstimate.toString(),
+          gasPrice: gasPrice.toString()
+        });
+
+      // Notify backend
+      try {
+        await this.http
+          .post(backendApi, {
+            transactionHash: receipt.transactionHash,
+            amount,
+            from: this.accountSubject.value,
+            to: merchantAddress
+          })
+          .toPromise();
+      } catch (error) {
+        console.error('Backend notification failed:', error);
+        // Continue with success even if backend notification fails
+      }
+
+      return receipt;
+    } catch (error: any) {
+      this.showModal('Error', `Transaction failed: ${error.message}`, 'error');
+      throw error;
+    }
+  }
+
+  showModal(
+    title: string,
+    message: string,
+    status: string,
+    showCloseBtn: boolean = true,
+    disableClose: boolean = true,
+    installMetamask: boolean = false
+  ) {
     this.dialog.closeAll();
     this.dialog.open(NotifyModalComponent, {
       disableClose: disableClose,

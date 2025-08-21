@@ -11,10 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CartComponent {
   cartProducts: any[] = [];
   subtotal: number = 0;
-  deliveryFee: number = 5;
+  deliveryFee: number = 0;
   total: number = 0;
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {
+    this.deliveryFee = this.dataService.deliveryFee;
+  }
 
   ngOnInit() {
     const storedCart = localStorage.getItem('cartItems');

@@ -157,6 +157,19 @@
                     </div>
                   </div>
                 </div>
+
+                <div *ngIf="choosePaymentMethod == 2">
+                  <p>
+                    {{ account }}
+                  </p>
+                  <p>
+                    {{ balance | number : "1.1-5" }} BNB
+                  </p>
+                  <p>
+                    {{ (USDTBalance/10**12) | number : "1.1-5" }} USDT
+                  </p>
+                </div>
+
               </div>
             </div>
 
