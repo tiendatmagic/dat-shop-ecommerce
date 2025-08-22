@@ -319,8 +319,7 @@ export class Web3Service {
     tokenAddress: string,
     merchantAddress: string,
     amount: number,
-    decimals: number,
-    backendApi: string
+    decimals: number
   ): Promise<any> {
     if (!this.web3 || !this.accountSubject.value) {
       this.showModal('Error', 'Please connect your wallet first.', 'error');
@@ -382,21 +381,6 @@ export class Web3Service {
           gas: gasEstimate.toString(),
           gasPrice: gasPrice.toString()
         });
-
-      // Notify backend
-      try {
-        await this.http
-          .post(backendApi, {
-            transactionHash: receipt.transactionHash,
-            amount,
-            from: this.accountSubject.value,
-            to: merchantAddress
-          })
-          .toPromise();
-      } catch (error) {
-        console.error('Backend notification failed:', error);
-        // Continue with success even if backend notification fails
-      }
 
       return receipt;
     } catch (error: any) {

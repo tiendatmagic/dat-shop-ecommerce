@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { Web3Service } from '../../services/web3.service';
 import { combineLatest } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-place-order',
@@ -33,7 +34,7 @@ export class PlaceOrderComponent {
   selectedNetwork: string = '0x38';
   isProccessing: boolean = false;
 
-  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService, private web3Service: Web3Service) {
+  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService, private web3Service: Web3Service, private http: HttpClient) {
     this.deliveryFee = this.dataService.deliveryFee;
   }
 
@@ -80,7 +81,7 @@ export class PlaceOrderComponent {
     }
   }
 
-  proceedToPayment() {
+  async proceedToPayment() {
     const orderData = {
       name: this.name,
       email: this.email,
@@ -106,10 +107,48 @@ export class PlaceOrderComponent {
     if (this.choosePaymentMethod == 2) {
       const tokenAddress = this.dataService.usdtAddress;
       const merchantAddress = this.dataService.merchantAddress;
-      const backendApi = 'https://your-backend.com/api/order/confirm';
+
       this.isProccessing = true;
-      this.web3Service.transferUSDT(tokenAddress, merchantAddress, this.total, 18, backendApi)
+      await this.web3Service.transferUSDT(tokenAddress, merchantAddress, this.total, 18)
         .then((receipt: any) => {
+          console.log('receipt', receipt);
+          // call api backend
+
+          var data = {
+            data: {
+              transactionHash: receipt.transactionHash,
+              amount: this.total,
+              from: this.account,
+              to: merchantAddress,
+            },
+            payment: 'usdt'
+          };
+
+          console.log('data', data);
+          this.http.post('https://your-backend.com/api/order/confirm', data).subscribe(
+            (response: any) => {
+              this.snackBar.open('Order placed successfully!', 'OK', {
+                horizontalPosition: 'right',
+                verticalPosition: 'bottom',
+                duration: 3000
+              });
+              this.router.navigate(['/checkout', 123]);
+              this.cartProducts = [];
+              this.dataService.cartCount = 0;
+              this.isProccessing = false;
+              localStorage.removeItem('cartItems');
+            },
+            (error: any) => {
+              this.isProccessing = false;
+              this.snackBar.open('Order failed.', 'OK', {
+                horizontalPosition: 'right',
+                verticalPosition: 'bottom',
+                duration: 3000
+              });
+              console.error(error);
+            }
+          )
+
           this.snackBar.open('Payment successful via USDT!', 'OK', { duration: 3000 });
           this.router.navigate(['/checkout', 123]);
           this.cartProducts = [];
@@ -128,13 +167,36 @@ export class PlaceOrderComponent {
 
       return;
     }
-
-    this.isProccessing = false;
-    this.router.navigate(['/checkout', 123]);
-
-    this.cartProducts = [];
-    this.dataService.cartCount = this.cartProducts.length;
-    localStorage.removeItem('cartItems');
+    else {
+      this.isProccessing = true;
+      var data = {
+        data: orderData,
+        payment: 'cash'
+      };
+      await this.http.post('https://your-backend.com/api/order/confirm', data).subscribe(
+        (response: any) => {
+          this.snackBar.open('Order placed successfully!', 'OK', {
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            duration: 3000
+          });
+          this.router.navigate(['/checkout', 123]);
+          this.cartProducts = [];
+          this.dataService.cartCount = 0;
+          this.isProccessing = false;
+          localStorage.removeItem('cartItems');
+        },
+        (error: any) => {
+          this.isProccessing = false;
+          this.snackBar.open('Order failed.', 'OK', {
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            duration: 3000
+          });
+          console.error(error);
+        }
+      )
+    }
   }
 
   viewOrder() {
