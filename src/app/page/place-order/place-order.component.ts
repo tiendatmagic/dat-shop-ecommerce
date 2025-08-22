@@ -31,6 +31,8 @@ export class PlaceOrderComponent {
   nativeSymbol: string = '';
   isConnected: boolean = false;
   selectedNetwork: string = '0x38';
+  isProccessing: boolean = false;
+
   constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService, private web3Service: Web3Service) {
     this.deliveryFee = this.dataService.deliveryFee;
   }
@@ -102,26 +104,32 @@ export class PlaceOrderComponent {
     }
 
     if (this.choosePaymentMethod == 2) {
-      const tokenAddress = '0x55d398326f99059fF775485246999027B3197955'; // USDT BEP20 BSC
-      const merchantAddress = '0x1AD11e0e96797a14336Bf474676EB0A332055555';
-      const backendApi = 'https://your-backend.com/api/order/confirm'; // API backend của bạn
-
+      const tokenAddress = this.dataService.usdtAddress;
+      const merchantAddress = this.dataService.merchantAddress;
+      const backendApi = 'https://your-backend.com/api/order/confirm';
+      this.isProccessing = true;
       this.web3Service.transferUSDT(tokenAddress, merchantAddress, this.total, 18, backendApi)
         .then((receipt: any) => {
           this.snackBar.open('Payment successful via USDT!', 'OK', { duration: 3000 });
           this.router.navigate(['/checkout', 123]);
           this.cartProducts = [];
           this.dataService.cartCount = 0;
+          this.isProccessing = false;
           localStorage.removeItem('cartItems');
         })
         .catch((err: any) => {
-          this.snackBar.open('Payment failed.', 'OK', { duration: 3000 });
+          this.isProccessing = false;
+          this.snackBar.open('Payment failed.', 'OK', {
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom', duration: 3000
+          });
           console.error(err);
         });
 
       return;
     }
 
+    this.isProccessing = false;
     this.router.navigate(['/checkout', 123]);
 
     this.cartProducts = [];
@@ -131,6 +139,38 @@ export class PlaceOrderComponent {
 
   viewOrder() {
     this.router.navigate(['/order', this.id]);
+  }
+
+  disconnectWallet() {
+    if (this.isProccessing) return;
+    this.web3Service.disconnectWallet();
+  }
+
+
+  copyAddress(address: string): void {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(address).then(() => {
+        console.log('Address copied to clipboard');
+        this.snackBar.open('Address copied to clipboard', 'OK', {
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
+      }).catch((error) => {
+        console.error('Failed to copy address: ', error);
+      });
+    } else {
+      let textArea = document.createElement("textarea");
+      textArea.value = address;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+      } catch (error) {
+        console.error('Failed to copy address: ', error);
+      }
+      document.body.removeChild(textArea);
+    }
   }
 }
 

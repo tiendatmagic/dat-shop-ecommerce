@@ -75,11 +75,7 @@ export class CartComponent {
   }
 
   checkout() {
-    console.log('Thanh toán với:', this.cartProducts);
-
     this.router.navigate(['/checkout']);
-    // localStorage.removeItem('cartItems');
-    // this.cartProducts = [];
     this.calculateSubtotal();
   }
 }

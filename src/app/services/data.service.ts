@@ -76,6 +76,8 @@ export class DataService {
   ]
   cartItems: any[] = [];
   deliveryFee: number = 1;
+  usdtAddress = '0x55d398326f99059fF775485246999027B3197955';
+  merchantAddress = '0x282eae859073adC4bC3Cf4DE24a2436bC1888888';
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   public cartCount$ = this.cartCountSubject.asObservable();

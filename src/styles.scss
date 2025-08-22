@@ -45,17 +45,23 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply bg-violet-700 shadow-lg shadow-purple-300 px-4 py-3 rounded-lg leading-5 text-sm text-white outline-none min-w-20 duration-200 bg-gradient-to-r from-[#0062ff] to-[#b300e4] disabled:bg-none disabled:shadow-none disabled:cursor-not-allowed transition-all;
+    @apply bg-violet-700 shadow-lg shadow-purple-200 px-4 py-3 rounded-lg leading-5 text-sm text-white outline-none min-w-20 duration-200 bg-gradient-to-r from-[#0062ff] to-[#b300e4] disabled:bg-none disabled:shadow-none disabled:cursor-not-allowed transition-all;
     &:hover {
-      @apply shadow-purple-200;
+      @apply shadow-xl;
     }
     &:active {
-      @apply shadow-purple-200;
+      @apply shadow-xl;
     }
   }
 
   .btn-primary[disabled] {
     @apply bg-gray-500 bg-opacity-50 min-w-20 transition-colors duration-200;
+    &:hover {
+      @apply shadow-none;
+    }
+    &:active {
+      @apply shadow-none;
+    }
   }
 
   .btn-outline-primary {

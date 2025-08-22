@@ -191,8 +191,7 @@ export class Web3Service {
         return;
       }
 
-      // Convert balance from wei-like units to USDT (assuming 6 decimals for USDT on BSC)
-      const balanceInUSDT = this.web3.utils.fromWei(balance, 'mwei'); // 6 decimals
+      const balanceInUSDT = this.web3.utils.fromWei(balance, 'ether');
       this.USDTBalanceSubject.next(balanceInUSDT);
     } catch (error) {
       console.error('Failed to get USDT balance:', error);

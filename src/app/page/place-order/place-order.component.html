@@ -77,7 +77,8 @@
               <ul role="list" class="-my-6 divide-y divide-gray-200">
                 <li *ngFor="let cart of cartProducts" class="flex py-3">
                   <div class="flex-shrink-0 w-16 h-16 overflow-hidden border border-gray-200 rounded-md">
-                    <img src="{{ cart.image }}" alt="" class="object-cover object-center w-full h-full" />
+                    <img src="{{ cart.image }}" routerLink="/product/{{ cart.id }}" alt=""
+                      class="object-cover object-center w-full h-full" />
                   </div>
 
                   <div class="flex flex-1 ml-4">
@@ -85,7 +86,7 @@
                       <div>
                         <div class="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a href="#">{{ cart.name }}</a>
+                            <a routerLink="/product/{{ cart.id }}">{{ cart.name }}</a>
                             <p>${{ cart.price | number:'1.0-2' }}</p>
                           </h3>
 
@@ -99,7 +100,7 @@
             </div>
           </div>
 
-          <div class="w-full mt-6 space-y-6 lg:w-2/5 xl:w-2/6 sm:mt-8 lg:mt-0">
+          <div class="w-full mt-6 lg:w-2/5 xl:w-2/6 sm:mt-8 lg:mt-0">
             <div class="flow-root">
               <div class="-my-3 divide-y divide-gray-200">
                 <dl class="flex items-center justify-between gap-4 py-3">
@@ -119,7 +120,7 @@
               </div>
             </div>
 
-            <div class="space-y-4">
+            <div class="">
               <div class="inline-flex items-center gap-2 mb-3 text-2xl">
                 <p class="font-medium">Payment</p>
                 <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
@@ -159,22 +160,46 @@
                 </div>
               </div>
 
-              <div class="p-4 border rounded-lg bg-gray-50" *ngIf="choosePaymentMethod == 2">
-                <p class="text-sm font-medium text-gray-700 break-all">
+              <div class="p-4 mt-4 border rounded-lg bg-gray-50"
+                *ngIf="choosePaymentMethod == 2 && account && isConnected">
+                <div class="text-sm font-medium text-gray-700 break-all cursor-pointer" (click)="copyAddress(account)">
                   {{ account }}
-                </p>
-                <p class="mt-3 text-sm font-medium text-gray-700 break-all">
-                  {{ balance | number : "1.1-5" }} BNB
-                </p>
-                <p class="text-sm font-medium text-gray-700 break-all">
-                  {{ (USDTBalance/10**12) | number : "1.1-5" }} USDT
-                </p>
-              </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="inline ml-2 size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                  </svg>
+                </div>
 
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="flex items-center gap-3 mt-2 text-sm font-medium text-gray-700 break-all">
+                      <img src="/assets/images/logo/bnb.png" alt="" width="30">
+                      <span class="font-medium text-green-500 ">{{ balance | number:"1.1-5" }}</span> BNB
+                    </div>
+                    <div class="flex items-center gap-3 mt-2 text-sm font-medium text-gray-700 break-all">
+                      <img src="/assets/images/logo/usdt.png" alt="" width="30">
+                      <span class="font-medium text-green-500 ">{{ USDTBalance | number:"1.1-5" }} </span> USDT
+                    </div>
+                  </div>
+
+                  <div>
+                    <div
+                      class="flex items-center justify-center w-10 h-10 border border-gray-300 rounded-lg cursor-pointer"
+                      matRipple (click)="disconnectWallet()">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="space-y-3">
-              <button type="button" class="w-full btn-primary" matRipple matRippleColor="#ffffff66"
+            <div class="mt-4">
+              <button type="button" class="w-full mt-0 btn-primary" matRipple matRippleColor="#ffffff66"
                 (click)="proceedToPayment()" [disabled]="!name || !email || !address || !phone">
                 Proceed to Payment
               </button>
@@ -182,8 +207,8 @@
               <p class="text-sm font-normal text-gray-700">One or more items in your cart require an
                 account. <a routerLink="/login" title=""
                   class="font-medium underline text-primary-700 hover:no-underline">Sign in or
-                  create
-                  an account now.</a>.</p>
+                  create an account now.</a>
+              </p>
             </div>
           </div>
         </div>
