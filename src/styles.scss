@@ -9,6 +9,7 @@ body {
 }
 body {
   margin: 0;
+  scroll-behavior: smooth;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
   --mat-dialog-subhead-line-height: 1rem !important;
@@ -45,7 +46,7 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply bg-violet-700 shadow-lg shadow-purple-200 px-4 py-3 rounded-lg leading-5 text-sm text-white outline-none min-w-20 duration-200 bg-gradient-to-r from-[#0062ff] to-[#b300e4] disabled:bg-none disabled:shadow-none disabled:cursor-not-allowed transition-all;
+    @apply bg-violet-600 hover:bg-violet-700 shadow-lg shadow-purple-200 px-4 py-3 rounded-lg leading-5 text-sm text-white outline-none min-w-20 duration-200 disabled:bg-none disabled:shadow-none disabled:cursor-not-allowed transition-all;
     &:hover {
       @apply shadow-xl;
     }

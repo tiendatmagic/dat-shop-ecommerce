@@ -14,6 +14,7 @@ export class DataService {
       price: 1,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/b1devpuovnvqwdo8pfia.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/o7kcxzpkbvobb05iu949.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/iwopzvmpc5olrt7anheh.jpg'],
       size: ['S', 'M', 'XL', 'XXL'],
+      category: 'men',
       isBestSeller: true,
     },
     {
@@ -22,6 +23,7 @@ export class DataService {
       price: 50,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063302/wowbtd0tlj6tpfxvkxcg.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063302/kjfejg6lvpqwib89qwfy.jpg'],
       size: ['S', 'M', 'L'],
+      category: 'men',
       isBestSeller: false,
     },
     {
@@ -30,6 +32,7 @@ export class DataService {
       price: 30,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063623/gnttim2dl0vxljmpejlu.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063623/fwtx0axdz5iowwgarff7.jpg'],
       size: ['S', 'M', 'XL', 'XXL', 'L'],
+      category: 'men',
       isBestSeller: false,
     },
     {
@@ -38,6 +41,7 @@ export class DataService {
       price: 25,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063667/qudc6bwwlvnzfsgmx2ah.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063667/ocu1bqsqtipqrk1dt61i.jpg'],
       size: ['S', 'M', 'L'],
+      category: 'men',
       isBestSeller: false,
     },
     {
@@ -46,6 +50,7 @@ export class DataService {
       price: 35,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063762/ggjerydhpsewxvm8kbyd.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063762/jqoik9izii3hv5j2z2b4.jpg'],
       size: ['S', 'M', 'L', 'XL'],
+      category: 'women',
       isBestSeller: true,
     },
     {
@@ -54,6 +59,7 @@ export class DataService {
       price: 60,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063815/hbrtbquoemjpaghclydx.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063815/hk4ofjpoxe8ocrfvagkz.jpg'],
       size: ['S', 'M', 'L', 'XL'],
+      category: 'women',
       isBestSeller: true,
     },
     {
@@ -62,6 +68,7 @@ export class DataService {
       price: 30,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063885/cnffks7xikrhgjan9zil.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063885/e6xpjggzveoxjospfxos.jpg'],
       size: ['S', 'M', 'L', 'XL'],
+      category: 'women',
       isBestSeller: false,
     },
     {
@@ -70,7 +77,17 @@ export class DataService {
       price: 109,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753064020/zc0xgahhdyl4jttwci2e.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753064020/mwzlfoxgfofmncknwecv.jpg'],
       size: ['S', 'M', 'L', 'XL', 'XXL'],
+      category: 'women',
       isBestSeller: true,
+    },
+    {
+      id: 9,
+      name: 'Sammy Oversize Hoodie',
+      price: 34,
+      image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753064102/ri8zbzu6eq3z2ajkrwff.jpg'],
+      size: ['S', 'M', 'L',],
+      category: 'kids',
+      isBestSeller: false,
     }
 
   ]

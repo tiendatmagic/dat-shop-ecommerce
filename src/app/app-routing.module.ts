@@ -8,6 +8,8 @@ import { CartComponent } from './page/cart/cart.component';
 import { PlaceOrderComponent } from './page/place-order/place-order.component';
 import { LoginComponent } from './page/login/login.component';
 import { RegisterComponent } from './page/register/register.component';
+import { CollectionComponent } from './page/collection/collection.component';
+import { AboutComponent } from './page/about/about.component';
 
 const routes: Routes = [
   {
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'collection',
+    component: CollectionComponent,
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
   },
   {
     path: 'contact',

@@ -26,6 +26,8 @@ import { PlaceOrderComponent } from './page/place-order/place-order.component';
 import { LoginComponent } from './page/login/login.component';
 import { RegisterComponent } from './page/register/register.component';
 import { NotifyComponent } from './modal/notify/notify.component';
+import { CollectionComponent } from './page/collection/collection.component';
+import { AboutComponent } from './page/about/about.component';
 
 const globalRippleConfig: RippleGlobalOptions = {
   animation: {
@@ -53,7 +55,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     PlaceOrderComponent,
     LoginComponent,
     RegisterComponent,
-    NotifyComponent
+    NotifyComponent,
+    CollectionComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

@@ -19,6 +19,18 @@
             </a>
           </li>
           <li class="flex items-center">
+            <a routerLink="/collection" routerLinkActive="text-violet-600"
+              class="items-center block p-2 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-violet-600">
+              Collection
+            </a>
+          </li>
+          <li class="flex items-center">
+            <a routerLink="/about" routerLinkActive="text-violet-600"
+              class="items-center block p-2 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-violet-600">
+              About
+            </a>
+          </li>
+          <li class="flex items-center">
             <a routerLink="/contact" routerLinkActive="text-violet-600"
               class="items-center block p-2 text-black border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-violet-600">
               Contact
@@ -87,7 +99,7 @@
       </div>
 
       <button
-        class="px-4 py-2 text-white transition-colors duration-200 rounded-lg shadow-md lg:p-2.5 lg:px-5 focus:border-0 focus:outline-none hover:bg-violet-700 bg-violet-600 bg-gradient-to-r from-[#0062ff] to-[#b300e4]"
+        class="px-4 py-2 text-white transition-colors duration-200 rounded-lg shadow-md lg:p-2.5 lg:px-5 focus:border-0 focus:outline-none hover:bg-violet-700 bg-violet-600"
         routerLink="/login" matRipple matRippleColor="#ffffff66">
         <div class="flex items-center gap-2">
           <span class="">
@@ -134,6 +146,25 @@
             data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation">
             <span class="ms-3">
               Home
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/collection"
+            class="flex items-center px-2 py-3 text-gray-900 rounded-lg hover:bg-gray-100 group"
+            data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation">
+            <span class="ms-3">
+              Collection
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/about" class="flex items-center px-2 py-3 text-gray-900 rounded-lg hover:bg-gray-100 group"
+            data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation">
+            <span class="ms-3">
+              About
             </span>
           </a>
         </li>

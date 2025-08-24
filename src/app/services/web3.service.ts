@@ -48,7 +48,9 @@ export class Web3Service {
     private ngZone: NgZone,
     public dialog: MatDialog,
     private http: HttpClient
-  ) { }
+  ) {
+
+  }
 
   async initWeb3() {
     const savedChainId = localStorage.getItem('selectedChainId');
@@ -117,7 +119,7 @@ export class Web3Service {
   }
 
   async connectWallet(): Promise<boolean> {
-    await this.initWeb3();
+    this.initWeb3();
     if (typeof window.ethereum !== 'undefined') {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });

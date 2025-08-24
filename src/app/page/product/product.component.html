@@ -41,7 +41,7 @@
             <button
               class="px-4 py-2 font-medium transition-all duration-200 ease-in-out border rounded-lg cursor-pointer"
               (click)="selectSize(size)"
-              [ngClass]="{ 'bg-gradient-to-r from-[#0062ff] to-[#b300e4] text-white': size === selectedSize }">
+              [ngClass]="{ 'hover:bg-violet-700 bg-violet-600 text-white': size === selectedSize }">
               {{ size }}
             </button>
           </ng-container>
