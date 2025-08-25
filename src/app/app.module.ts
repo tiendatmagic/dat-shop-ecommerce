@@ -13,7 +13,7 @@ import { MAT_DATE_LOCALE, MAT_RIPPLE_GLOBAL_OPTIONS, MatRippleModule, RippleGlob
 import { ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NotifyModalComponent } from './modal/notify-modal/notify-modal.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -28,10 +28,11 @@ import { RegisterComponent } from './page/register/register.component';
 import { NotifyComponent } from './modal/notify/notify.component';
 import { CollectionComponent } from './page/collection/collection.component';
 import { AboutComponent } from './page/about/about.component';
+import { HttpInterceptorService } from './services/http-logger.service';
 
 const globalRippleConfig: RippleGlobalOptions = {
   animation: {
-    enterDuration: 500,
+    enterDuration: 400,
     exitDuration: 0
   }
 };
@@ -83,6 +84,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     },
     {
       provide: MAT_DATE_LOCALE, useValue: 'vi-VN'
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
     },
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi())

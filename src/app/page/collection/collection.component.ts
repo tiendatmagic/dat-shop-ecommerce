@@ -42,7 +42,7 @@ export class CollectionComponent {
   }
 
   onPriceChange(price: number) {
-    this.productList = this.allProducts.filter(product => product.price > price);
+    this.productList = this.allProducts.filter(product => product.price >= price);
   }
 
   onSortChange(event: any) {

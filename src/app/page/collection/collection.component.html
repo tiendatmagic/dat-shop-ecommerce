@@ -13,36 +13,52 @@
         <div class="w-1/2 py-3 pl-5 border border-gray-300 rounded-lg md:w-full sm:block">
           <p class="mb-3 text-sm font-medium">CATEGORIES</p>
           <div class="flex flex-col gap-2 text-sm">
-            <p class="flex gap-3">
-              <input type="checkbox" id="Men" name="Men" value="Men" (change)="getProductsByCategory('men', $event)">
-              <label for="Men"> Men</label>
+            <p>
+              <label for="Men" class="flex items-center gap-3">
+                <input type="checkbox" class="border border-gray-400 text-violet-700" id="Men" name="Men" value="Men"
+                  (change)="getProductsByCategory('men', $event)">
+                <span>Men</span>
+              </label>
             </p>
-            <p class="flex gap-3">
-              <input type="checkbox" id="Women" name="Women" value="Women"
-                (change)="getProductsByCategory('women', $event)">
-              <label for="Women"> Women</label>
+            <p>
+              <label for="Women" class="flex items-center gap-3">
+                <input type="checkbox" class="border border-gray-400 text-violet-700" id="Women" name="Women"
+                  value="Women" (change)="getProductsByCategory('women', $event)">
+                <span>Women</span>
+              </label>
             </p>
-            <p class="flex gap-3">
-              <input type="checkbox" id="Kids" name="Kids" value="Kids"
-                (change)="getProductsByCategory('kids', $event)">
-              <label for="Kids"> Kids</label>
+            <p>
+              <label for="Kids" class="flex items-center gap-3">
+                <input type="checkbox" class="border border-gray-400 text-violet-700" id="Kids" name="Kids" value="Kids"
+                  (change)="getProductsByCategory('kids', $event)">
+                <span>Kids</span>
+              </label>
             </p>
           </div>
         </div>
         <div class="w-1/2 py-3 pl-5 border border-gray-300 rounded-lg md:w-full sm:block">
           <p class="mb-3 text-sm font-medium">PRICE</p>
           <div class="flex flex-col gap-2 text-sm">
-            <p class="flex gap-3">
-              <input type="radio" id="all" name="price" value="0" (change)="onPriceChange(0)" checked>
-              <label for="all">All</label>
+            <p>
+              <label for="all" class="flex items-center gap-3">
+                <input type="radio" class="border border-gray-400 text-violet-700" id="all" name="price" value="0"
+                  (change)="onPriceChange(0)" checked>
+                <span>All</span>
+              </label>
             </p>
-            <p class="flex gap-3">
-              <input type="radio" id="p-50" name="price" value="50" (change)="onPriceChange(50)">
-              <label for="p-50">> $50</label>
+            <p>
+              <label for="p-50" class="flex items-center gap-3">
+                <input type="radio" class="border border-gray-400 text-violet-700" id="p-50" name="price" value="50"
+                  (change)="onPriceChange(50)" checked>
+                <span>>= $50</span>
+              </label>
             </p>
-            <p class="flex gap-3">
-              <input type="radio" id="p-100" name="price" value="100" (change)="onPriceChange(100)">
-              <label for="p-100">> $100</label>
+            <p>
+              <label for="p-100" class="flex items-center gap-3">
+                <input type="radio" class="border border-gray-400 text-violet-700" id="p-100" name="price" value="100"
+                  (change)="onPriceChange(100)" checked>
+                <span>>= $100</span>
+              </label>
             </p>
           </div>
         </div>
