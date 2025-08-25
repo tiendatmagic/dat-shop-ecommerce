@@ -31,8 +31,6 @@ export class LoginComponent {
   }
 
   onLogin() {
-
-
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
       var data: any = {
@@ -40,7 +38,6 @@ export class LoginComponent {
         'password': this.loginForm.value.password
       };
 
-      console.log(data);
       this.isLoading = this.auth.isLoading;
       this.loginForm.disable();
 
