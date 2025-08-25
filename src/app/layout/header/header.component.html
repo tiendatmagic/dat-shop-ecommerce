@@ -86,10 +86,10 @@
           class="absolute right-0 z-30 hidden w-full overflow-auto bg-white border border-gray-100 rounded-lg shadow-card top-14 min-w-32 set-transform"
           id="dropdownSelectNetworkToggle" aria-labelledby="dropdownSelectNetwork" aria-hidden="true">
           <ul class="item">
-            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
+            <li routerLink="/profile" class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
               <span>Profile</span>
             </li>
-            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
+            <li routerLink="/order" class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
               <span>Order</span>
             </li>
             <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100" (click)="onLogout()">

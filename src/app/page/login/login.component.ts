@@ -51,7 +51,6 @@ export class LoginComponent {
 
 
       this.auth.onLogin(data).subscribe((res: any) => {
-
         localStorage.setItem('dat-shop-token', res.access_token);
         localStorage.setItem('dat-shop-renew', res.refresh_token);
         this.router.navigate(['/home']);
@@ -66,6 +65,8 @@ export class LoginComponent {
           this.loginForm.enable();
           if (error.error.message == 'Unauthorized') {
             this.dataService.showNotify('Login error', 'Login failed, please check your information again', 'error', true, true, false);
+            this.auth.isLoading = false;
+            this.isLoading = this.auth.isLoading;
           }
         }
       );

@@ -57,6 +57,7 @@ class RegisterController extends BaseController
                 User::insert([
                     'id' => Uuid::uuid4(),
                     'name' => 'User' . $this->generateRandomString($characters, 5),
+                    'full_name' => 'User' . $this->generateRandomString($characters, 5),
                     'password' => Hash::make($request->password),
                     'email' => $request->email,
                     'created_at' => now(),
@@ -74,63 +75,6 @@ class RegisterController extends BaseController
         } else {
             return "FAILED";
         }
-    }
-
-    public function loginGoogle()
-    {
-        $characters = '0123456789';
-        $refCode = $this->generateRandomString($characters, 8);
-
-        $checkrefCodeExists = User::where('ref_code', $refCode)->first();
-        if ($checkrefCodeExists) {
-            $refCode = $this->generateRandomString($characters, 8);
-        }
-
-        $refCode = $this->generateRandomString($characters, 8);
-
-        $checkRefCodeExists = User::where('ref_code', $refCode)->first();
-        $refId = null;
-
-        while ($checkRefCodeExists) {
-            $refCode = $this->generateRandomString($characters, 8);
-            $checkRefCodeExists = User::where('ref_code', $refCode)->first();
-        }
-
-        if ($refCode) {
-            $refCodeValid = User::where('ref_code', $refCode)
-                ->select('id')
-                ->first();
-
-            if ($refCodeValid) {
-                $refId = $refCodeValid->id;
-            }
-        }
-
-        $user = request()->all();
-        if (!User::where('email', request(['email'])['email'])->first()) {
-
-            User::insert([
-                'id' => Uuid::uuid4(),
-                'email' => $user['email'],
-                'full_name' => $user['fullName'],
-                'password' => Hash::make($user['password']),
-                'ref_code' => $refCode,
-                'ref_id' =>  $refId,
-                'avatar_url' => $user['avatar_url'],
-                'provider' => 'google',
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-        }
-
-        $credentials = request(['email', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        $refreshToken = $this->createRefreshToken();
-        return $this->respondWithToken($token, $refreshToken, request());
     }
 
     public function createRefreshToken()

@@ -44,6 +44,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('dat-shop-token')) {
+      this.isLogin = true;
+    }
+
     if (this.translate.currentLang == 'vi') {
       this.lang = 'vi';
     }
@@ -91,7 +95,6 @@ export class HeaderComponent implements OnInit {
       this.auth.onLoad = true;
       this.auth.isLogin = false;
       this.auth.getProfile = null;
-      this.router.navigate(['/login']);
 
     },
       (error: any) => {

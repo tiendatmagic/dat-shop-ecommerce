@@ -194,7 +194,7 @@ export class AuthService {
         this.getToken = '';
         localStorage.removeItem("dat-shop-profile");
         localStorage.removeItem("dat-shop-renew");
-        localStorage.setItem("dat-shop-token", '');
+        localStorage.removeItem("dat-shop-token");
         this.router.navigate(['/sign-in']);
         return throwError(error);
       }),

@@ -5,6 +5,8 @@ import { DataService } from '../../services/data.service';
 import { Web3Service } from '../../services/web3.service';
 import { combineLatest } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-place-order',
@@ -25,7 +27,7 @@ export class PlaceOrderComponent {
   address: string = '';
   phone: string = '';
   note: string = '';
-
+  data: any;
   account: string = '';
   balance: any;
   USDTBalance: any;
@@ -34,20 +36,38 @@ export class PlaceOrderComponent {
   selectedNetwork: string = '0x38';
   isProccessing: boolean = false;
 
-  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService, private web3Service: Web3Service, private http: HttpClient) {
+
+  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService, private web3Service: Web3Service, private http: HttpClient, private auth: AuthService) {
     this.deliveryFee = this.dataService.deliveryFee;
   }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     if (!this.id) {
-      const storedCart = localStorage.getItem('cartItems');
-      this.cartProducts = storedCart ? JSON.parse(storedCart) : [];
-      if (!this.cartProducts.length) {
-        this.router.navigate(['/cart']);
+      try {
+        const storedCart = localStorage.getItem('cartItems');
+        this.cartProducts = storedCart ? JSON.parse(storedCart) : [];
+        if (!this.cartProducts.length) {
+          this.router.navigate(['/cart']);
+        }
+      } catch (error) {
+        localStorage.setItem('cartItems', JSON.stringify([]));
+
       }
+
       this.calculateTotal();
     }
+
+    try {
+      this.data = JSON.parse(localStorage.getItem('dat-shop-profile') || '');
+      this.name = this.data.full_name;
+      this.email = this.data.email;
+      this.address = this.data.address;
+      this.phone = this.data.phone;
+    } catch (error) {
+      this.auth.onLoad = true;
+    }
+
 
     combineLatest([
       this.web3Service.account$,

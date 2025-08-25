@@ -10,6 +10,7 @@ import { LoginComponent } from './page/login/login.component';
 import { RegisterComponent } from './page/register/register.component';
 import { CollectionComponent } from './page/collection/collection.component';
 import { AboutComponent } from './page/about/about.component';
+import { ProfileComponent } from './page/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'contact',
     component: ContactComponent,
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
   },
   {
     path: 'tutorial',
