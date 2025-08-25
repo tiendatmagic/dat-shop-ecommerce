@@ -30,6 +30,14 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit() {
+    var getToken = localStorage.getItem('dat-shop-renew');
+
+    if (getToken) {
+      this.router.navigate(['/']);
+    }
+  }
+
   onLogin() {
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {

@@ -22,6 +22,7 @@ export class AppComponent {
         if (token) {
 
           this.auth.onMe({}).subscribe((res: any) => {
+            this.auth.isLogin = true;
           },
             (error: any) => {
               if (error.status == 0 && error.statusText == 'Unknown Error') {

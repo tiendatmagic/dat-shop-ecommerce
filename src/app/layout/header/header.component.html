@@ -41,38 +41,6 @@
     </div>
     <div class="flex items-center justify-between gap-2 lg:gap-3 sm:w-auto">
 
-      <div class="relative w-auto select-none" id="dropdownSelectNetwork"
-        data-dropdown-toggle="dropdownSelectNetworkToggle">
-        <div
-          class="relative flex items-center h-10 p-2.5 lg:p-2.5 font-medium border border-gray-300 cursor-pointer select-none rounded-lg lg:h-auto">
-          <div class="flex items-center justify-between w-full gap-2 cursor-pointer">
-            <div class="flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="absolute right-0 z-30 hidden w-full overflow-auto bg-white border border-gray-100 rounded-lg shadow-card top-14 min-w-32 set-transform"
-          id="dropdownSelectNetworkToggle" aria-labelledby="dropdownSelectNetwork" aria-hidden="true">
-          <ul class="item">
-            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
-              <span>Profile</span>
-            </li>
-            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
-              <span>Order</span>
-            </li>
-            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
-              <span>Log out</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
       <div class="relative w-auto select-none">
         <div
           class="relative flex items-center h-10 p-2.5 lg:p-2.5 font-medium border border-gray-300 cursor-pointer select-none rounded-lg lg:h-auto"
@@ -98,15 +66,51 @@
         </div>
       </div>
 
-      <button
-        class="px-4 py-2 text-white transition-colors duration-200 rounded-lg shadow-md lg:p-2.5 lg:px-5 focus:border-0 focus:outline-none hover:bg-violet-800 bg-violet-600"
-        routerLink="/login" matRipple matRippleColor="#ffffff80">
-        <div class="flex items-center gap-2">
-          <span class="">
-            Login
-          </span>
+      <div class="relative w-auto select-none" id="dropdownSelectNetwork"
+        data-dropdown-toggle="dropdownSelectNetworkToggle" *ngIf="isLogin">
+        <div
+          class="relative flex items-center h-10 p-2.5 lg:p-2.5 font-medium border border-gray-300 cursor-pointer select-none rounded-lg lg:h-auto"
+          (click)="openUserMenu()">
+          <div class="flex items-center justify-between w-full gap-2 cursor-pointer">
+            <div class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+            </div>
+          </div>
         </div>
-      </button>
+
+        <div
+          class="absolute right-0 z-30 hidden w-full overflow-auto bg-white border border-gray-100 rounded-lg shadow-card top-14 min-w-32 set-transform"
+          id="dropdownSelectNetworkToggle" aria-labelledby="dropdownSelectNetwork" aria-hidden="true">
+          <ul class="item">
+            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
+              <span>Profile</span>
+            </li>
+            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100">
+              <span>Order</span>
+            </li>
+            <li class="relative flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-100" (click)="onLogout()">
+              <span>Log out</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <ng-container *ngIf="!isLogin">
+        <button
+          class="px-4 py-2 text-white transition-colors duration-200 rounded-lg shadow-md lg:p-2.5 lg:px-5 focus:border-0 focus:outline-none hover:bg-violet-800 bg-violet-600"
+          routerLink="/login" matRipple matRippleColor="#ffffff80">
+          <div class="flex items-center gap-2">
+            <span class="">
+              Login
+            </span>
+          </div>
+        </button>
+      </ng-container>
 
       <button
         class="flex lg:hidden cursor-pointer w-10 h-10 lg:w-11 lg:h-11 justify-center items-center rounded-lg bg-[#f3f4f6]"

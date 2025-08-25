@@ -5,6 +5,8 @@ import { initFlowbite } from 'flowbite';
 import { combineLatest } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,9 +25,10 @@ export class HeaderComponent implements OnInit {
   // dropdownOpen: boolean = false;
   networks: any;
   lang: string = 'vi';
+  isLogin: boolean = false;
   cartCount: number = 0;
 
-  constructor(public web3Service: Web3Service, private snackBar: MatSnackBar, public translate: TranslateService, private dataService: DataService) {
+  constructor(public web3Service: Web3Service, private router: Router, private snackBar: MatSnackBar, public translate: TranslateService, private dataService: DataService, private auth: AuthService) {
     this.web3Service.chainId$.subscribe((networkId: any) => {
       this.selectedNetwork = networkId;
       this.selectedNetworkImg = this.web3Service.chainConfig[this.selectedNetwork]?.logo || '';
@@ -33,6 +36,10 @@ export class HeaderComponent implements OnInit {
     });
     this.dataService.cartCount$.subscribe((count: number) => {
       this.cartCount = count;
+    });
+    this.auth.isLogin$.subscribe((value) => {
+      console.log('value', value);
+      this.isLogin = value;
     });
   }
 
@@ -74,6 +81,32 @@ export class HeaderComponent implements OnInit {
     this.web3Service.disconnectWallet();
   }
 
+  onLogout() {
+    this.auth.onLogout().subscribe((res: any) => {
+      localStorage.removeItem("dat-shop-renew");
+      localStorage.removeItem("dat-shop-token");
+      localStorage.removeItem("dat-shop-profile");
+      this.auth.getToken = '';
+      this.auth.isLogin = false;
+      this.auth.onLoad = true;
+      this.auth.isLogin = false;
+      this.auth.getProfile = null;
+      this.router.navigate(['/login']);
+
+    },
+      (error: any) => {
+        this.auth.getToken = '';
+        this.auth.isLogin = false;
+        localStorage.removeItem("dat-shop-renew");
+        localStorage.removeItem("dat-shop-token");
+        localStorage.removeItem("dat-shop-profile");
+
+        this.router.navigate(['/login']);
+
+      }
+    );
+  }
+
   onNetworkChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedNetwork = selectElement.value;
@@ -91,6 +124,10 @@ export class HeaderComponent implements OnInit {
 
   chooseNetwork(networkId: string) {
     this.web3Service.switchNetwork(networkId);
+  }
+
+  openUserMenu() {
+    initFlowbite();
   }
 
   copyAddress(address: string): void {

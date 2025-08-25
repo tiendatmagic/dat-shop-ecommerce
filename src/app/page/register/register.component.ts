@@ -38,18 +38,9 @@ export class RegisterComponent {
   }
 
   ngOnInit() {
-    var token = localStorage.getItem('mmo-token');
-    if (token) {
-      // this.auth.isGetMe = false;
-      // this.auth.onMe({}).subscribe((res: any) => {
-      //   localStorage.setItem('dat-shop-profile', JSON.stringify(res));
-      //   this.auth.isLogin = true;
-      //   this.router.navigate(['/home']);
-      // },
-      //   (error: any) => {
-      //     this.auth.isLogin = false;
-      //   }
-      // );
+    var getToken = localStorage.getItem('dat-shop-renew');
+    if (getToken) {
+      this.router.navigate(['/']);
     }
   }
 

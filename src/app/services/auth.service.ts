@@ -59,6 +59,7 @@ export class AuthService {
   }
 
   get isLogin(): boolean {
+
     return this.isLoginSubject.value;
   }
   set isLogin(value: boolean) {
