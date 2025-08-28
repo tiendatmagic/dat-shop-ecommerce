@@ -231,4 +231,10 @@ export class AuthService {
       catchError((error: any) => this.handleError(error))
     );
   }
+
+  confirmOrder(data: any) {
+    return this.http.post(`${this.urlEnv}api/order/confirm`, data).pipe(
+      catchError((error: any) => this.handleError(error))
+    );
+  }
 }

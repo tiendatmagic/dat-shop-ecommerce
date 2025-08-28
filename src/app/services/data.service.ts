@@ -124,6 +124,12 @@ export class DataService {
     this.cartCount = this.cartItems.length;
   }
 
+  removeCart() {
+    this.cartItems = [];
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    this.cartCount = this.cartItems.length;
+  }
+
 
   showNotify(
     title: string,

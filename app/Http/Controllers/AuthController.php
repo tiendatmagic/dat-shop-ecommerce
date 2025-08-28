@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderItems;
+use App\Models\Orders;
 use App\Models\TwoFactorUsers;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -29,6 +31,7 @@ use App\Traits\Sharable;
 use Illuminate\Auth\Events\Login;
 use PhpParser\Node\Stmt\TryCatch;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends BaseController
 {
@@ -257,5 +260,118 @@ class AuthController extends BaseController
             'expires_in' => auth('api')->factory()->getTTL() * 60,
             'information' =>  response()->json(auth('api')->user())->getData()
         ]);
+    }
+
+    public function confirmOrder(Request $request)
+    {
+        $payment = $request->payment;
+
+        if ($payment == 'cash') {
+
+            $orderId = UUID::uuid4();
+            Orders::insert([
+                'id' => $orderId,
+                'user_id' => $request->user()->id,
+                'payment' => $payment,
+                'status' => 'pending',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            $cart = $request->data['cart'];
+
+            foreach ($cart as $item) {
+                OrderItems::insert([
+                    'id' => UUID::uuid4(),
+                    'order_id' => $orderId,
+                    'product_id' => $item['id'],
+                    'size' => $item['size'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+
+            return response()->json([
+                'success' => 'order_confirmed',
+                'order_id' => $orderId
+            ]);
+        } else if ($payment === 'usdt') {
+            $data = (object) $request->input('data');
+
+            $txHash           = strtolower($data->transactionHash);
+            $expectedAmount   = $data->amount;
+            $expectedReceiver = strtolower('0x1ad11e0e96797a14336bf474676eb0a332055555');
+            $usdtContract     = strtolower('0x55d398326f99059ff775485246999027b3197955');
+
+            $apiKey = env('ETHERSCAN_API_KEY');
+            $apiUrl = "https://api.etherscan.io/v2/api?chainid=56&module=proxy&action=eth_getTransactionByHash&txhash={$txHash}&apikey={$apiKey}";
+            $response = Http::get($apiUrl)->json();
+
+            if (!isset($response['result'])) {
+                return response()->json(['error' => 'Invalid response from explorer'], 400);
+            }
+
+            $tx = $response['result'];
+
+            if (strtolower($tx['to']) !== $usdtContract) {
+                return response()->json(['error' => 'Not a USDT transaction'], 400);
+            }
+
+            $input  = $tx['input'];
+            $method = substr($input, 0, 10);
+            if ($method !== '0xa9059cbb') {
+                return response()->json(['error' => 'Not a transfer() call'], 400);
+            }
+
+            $recipient = '0x' . substr($input, 10 + 24, 40);
+            $amountHex = '0x' . substr($input, 10 + 64, 64);
+            $amount    = gmp_strval(gmp_init($amountHex, 16)) / 1e18;
+
+            if (strtolower($recipient) !== $expectedReceiver) {
+                return response()->json(['error' => 'Wrong recipient'], 400);
+            }
+
+            if ($amount < $expectedAmount) {
+                return response()->json(['error' => 'Amount not matched'], 400);
+            }
+
+            if (Orders::where('txhash', $txHash)->exists()) {
+                return response()->json(['error' => 'Transaction already used'], 400);
+            }
+
+            $orderId = UUID::uuid4();
+            Orders::insert([
+                'id'         => $orderId,
+                'user_id'    => $request->user()->id,
+                'payment'    => $payment,
+                'status'     => 'pending',
+                'txhash'     => $txHash,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            foreach ($request->data['cart'] as $item) {
+                OrderItems::insert([
+                    'id'         => UUID::uuid4(),
+                    'order_id'   => $orderId,
+                    'product_id' => $item['id'],
+                    'size'       => $item['size'],
+                    'quantity'   => $item['quantity'],
+                    'price'      => $item['price'],
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+
+            return response()->json([
+                'success'  => 'usdt_payment_verified',
+                'txhash'   => $txHash,
+                'amount'   => $amount,
+                'receiver' => $recipient,
+                'order_id' => $orderId
+            ]);
+        }
     }
 }

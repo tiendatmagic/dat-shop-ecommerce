@@ -31,6 +31,13 @@ Route::group([
     Route::post('profile', [AuthController::class, 'updateProfile']);
 });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'order'
+], function ($router) {
+    Route::post('confirm', [AuthController::class, 'confirmOrder']);
+});
+
 Route::group(
     [
         'middleware' => 'api',

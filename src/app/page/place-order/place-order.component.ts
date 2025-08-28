@@ -124,6 +124,8 @@ export class PlaceOrderComponent {
       return;
     }
 
+    this.auth.onLoad = true;
+
     if (this.choosePaymentMethod == 2) {
       const tokenAddress = this.dataService.usdtAddress;
       const merchantAddress = this.dataService.merchantAddress;
@@ -132,31 +134,31 @@ export class PlaceOrderComponent {
       await this.web3Service.transferUSDT(tokenAddress, merchantAddress, this.total, 18)
         .then((receipt: any) => {
           console.log('receipt', receipt);
-          // call api backend
 
           var data = {
             data: {
+              ...orderData,
               transactionHash: receipt.transactionHash,
               amount: this.total,
               from: this.account,
               to: merchantAddress,
             },
             payment: 'usdt'
-          };
+          }
 
-          console.log('data', data);
-          this.http.post('https://your-backend.com/api/order/confirm', data).subscribe(
-            (response: any) => {
+          this.auth.confirmOrder(data).subscribe(
+            (res: any) => {
               this.snackBar.open('Order placed successfully!', 'OK', {
                 horizontalPosition: 'right',
                 verticalPosition: 'bottom',
                 duration: 3000
               });
-              this.router.navigate(['/checkout', 123]);
-              this.cartProducts = [];
-              this.dataService.cartCount = 0;
-              this.isProccessing = false;
-              localStorage.removeItem('cartItems');
+              if (res.success) {
+                this.router.navigate(['/checkout', res.order_id]);
+                this.dataService.cartCount = 0;
+                this.isProccessing = false;
+                this.dataService.removeCart();
+              }
             },
             (error: any) => {
               this.isProccessing = false;
@@ -165,16 +167,8 @@ export class PlaceOrderComponent {
                 verticalPosition: 'bottom',
                 duration: 3000
               });
-              console.error(error);
             }
           )
-
-          this.snackBar.open('Payment successful via USDT!', 'OK', { duration: 3000 });
-          this.router.navigate(['/checkout', 123]);
-          this.cartProducts = [];
-          this.dataService.cartCount = 0;
-          this.isProccessing = false;
-          localStorage.removeItem('cartItems');
         })
         .catch((err: any) => {
           this.isProccessing = false;
@@ -193,18 +187,19 @@ export class PlaceOrderComponent {
         data: orderData,
         payment: 'cash'
       };
-      await this.http.post('https://your-backend.com/api/order/confirm', data).subscribe(
-        (response: any) => {
+      this.auth.confirmOrder(data).subscribe(
+        (res: any) => {
           this.snackBar.open('Order placed successfully!', 'OK', {
             horizontalPosition: 'right',
             verticalPosition: 'bottom',
             duration: 3000
           });
-          this.router.navigate(['/checkout', 123]);
-          this.cartProducts = [];
-          this.dataService.cartCount = 0;
-          this.isProccessing = false;
-          localStorage.removeItem('cartItems');
+          if (res.success) {
+            this.router.navigate(['/checkout', res.order_id]);
+            this.dataService.cartCount = 0;
+            this.isProccessing = false;
+            this.dataService.removeCart();
+          }
         },
         (error: any) => {
           this.isProccessing = false;
