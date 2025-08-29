@@ -274,6 +274,11 @@ class AuthController extends BaseController
                 'user_id' => $request->user()->id,
                 'payment' => $payment,
                 'status' => 'pending',
+                'name' => $request->data['name'],
+                'email' => $request->data['email'],
+                'phone' => $request->data['phone'],
+                'address' => $request->data['address'],
+                'note' => $request->data['note'],
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -347,6 +352,11 @@ class AuthController extends BaseController
                 'user_id'    => $request->user()->id,
                 'payment'    => $payment,
                 'status'     => 'pending',
+                'name' => $request->data['name'],
+                'email' => $request->data['email'],
+                'phone' => $request->data['phone'],
+                'address' => $request->data['address'],
+                'note' => $request->data['note'],
                 'txhash'     => $txHash,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -373,5 +383,35 @@ class AuthController extends BaseController
                 'order_id' => $orderId
             ]);
         }
+    }
+
+    public function getOrder(Request $request)
+    {
+
+        $order = Orders::where('id', $request->id)->first();
+        $orderItems = OrderItems::where('order_id', $request->id)->get();
+        $total = $orderItems->sum(function ($item) {
+            return $item->quantity * $item->price;
+        });
+
+        return response()->json([
+            'order' => $order,
+            'items' => $orderItems,
+            'total' => $total,
+        ]);
+    }
+
+    public function getMyOrder(Request $request)
+    {
+        $orders = Orders::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->get();
+        foreach ($orders as $order) {
+            $orderItems = OrderItems::where('order_id', $order->id)->get();
+            $total = $orderItems->sum(function ($item) {
+                return $item->quantity * $item->price;
+            });
+            $order->items = $orderItems;
+            $order->total = $total;
+        }
+        return response()->json($orders);
     }
 }

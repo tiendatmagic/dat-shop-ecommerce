@@ -36,6 +36,8 @@ Route::group([
     'prefix' => 'order'
 ], function ($router) {
     Route::post('confirm', [AuthController::class, 'confirmOrder']);
+    Route::get('get-order', [AuthController::class, 'getOrder']);
+    Route::get('get-my-order', [AuthController::class, 'getMyOrder']);
 });
 
 Route::group(

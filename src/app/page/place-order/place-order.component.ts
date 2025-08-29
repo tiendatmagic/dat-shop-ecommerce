@@ -35,6 +35,7 @@ export class PlaceOrderComponent {
   isConnected: boolean = false;
   selectedNetwork: string = '0x38';
   isProccessing: boolean = false;
+  orderData: any;
 
 
   constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private router: Router, private dataService: DataService, private web3Service: Web3Service, private http: HttpClient, private auth: AuthService) {
@@ -52,11 +53,33 @@ export class PlaceOrderComponent {
         }
       } catch (error) {
         localStorage.setItem('cartItems', JSON.stringify([]));
-
       }
-
       this.calculateTotal();
     }
+    else {
+      this.auth.getOrder({ id: this.id }).subscribe(
+        (res: any) => {
+          this.orderData = {
+            "id": res.order.id,
+            "name": res.order.full_name,
+            "email": res.order.email,
+            "phone": res.order.phone,
+            "address": res.order.address,
+            "note": res.order.note,
+            "paymentMethod": res.order.payment,
+            "items": res.items,
+            "total": res.total,
+            "created_at": res.order.created_at,
+            "status": res.order.status
+          }
+          console.log(res);
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      )
+    }
+
 
     try {
       this.data = JSON.parse(localStorage.getItem('dat-shop-profile') || '');
@@ -176,6 +199,7 @@ export class PlaceOrderComponent {
             horizontalPosition: 'right',
             verticalPosition: 'bottom', duration: 3000
           });
+          this.router.navigate(['/']);
           console.error(err);
         });
 

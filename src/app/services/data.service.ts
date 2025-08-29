@@ -130,7 +130,6 @@ export class DataService {
     this.cartCount = this.cartItems.length;
   }
 
-
   showNotify(
     title: string,
     message: string,

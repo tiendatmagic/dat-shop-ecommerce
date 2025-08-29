@@ -11,6 +11,7 @@ import { RegisterComponent } from './page/register/register.component';
 import { CollectionComponent } from './page/collection/collection.component';
 import { AboutComponent } from './page/about/about.component';
 import { ProfileComponent } from './page/profile/profile.component';
+import { OrderComponent } from './page/order/order.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: PlaceOrderComponent,
+  },
+  {
+    path: 'order',
+    component: OrderComponent,
   },
   {
     path: 'login',

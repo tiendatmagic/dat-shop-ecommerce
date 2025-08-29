@@ -30,6 +30,7 @@ import { CollectionComponent } from './page/collection/collection.component';
 import { AboutComponent } from './page/about/about.component';
 import { HttpInterceptorService } from './services/http-logger.service';
 import { ProfileComponent } from './page/profile/profile.component';
+import { OrderComponent } from './page/order/order.component';
 
 const globalRippleConfig: RippleGlobalOptions = {
   animation: {
@@ -60,7 +61,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotifyComponent,
     CollectionComponent,
     AboutComponent,
-    ProfileComponent
+    ProfileComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,
