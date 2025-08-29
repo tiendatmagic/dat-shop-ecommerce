@@ -43,14 +43,33 @@ export class ProfileComponent {
     });
   }
   ngOnInit(): void {
+    this.auth.isGetMe = false;
     this.data = (localStorage.getItem('dat-shop-profile'));
     this.data = JSON.parse(this.data);
-    this.profileForm.controls['fullName'].setValue(this.data.full_name);
-    this.profileForm.controls['phone'].setValue(this.data.phone);
-    this.profileForm.controls['address'].setValue(this.data.address);
-    this.profileForm.controls['email'].setValue(this.data.email);
-    this.profile = (localStorage.getItem('dat-shop-profile'));
-    this.profile = JSON.parse(this.profile);
+
+    if (!this.data) {
+      this.auth.onMe({}).subscribe((res: any) => {
+        this.profileForm.controls['fullName'].setValue(res.full_name);
+        this.profileForm.controls['phone'].setValue(res.phone);
+        this.profileForm.controls['address'].setValue(res.address);
+        this.profileForm.controls['email'].setValue(res.email);
+      },
+        (error: any) => {
+          if (error.status == 0 && error.statusText == 'Unknown Error') {
+            localStorage.removeItem("dat-shop-renew");
+            localStorage.removeItem("dat-shop-token");
+          }
+        }
+      );
+    }
+    else {
+      this.profileForm.controls['fullName'].setValue(this.data.full_name);
+      this.profileForm.controls['phone'].setValue(this.data.phone);
+      this.profileForm.controls['address'].setValue(this.data.address);
+      this.profileForm.controls['email'].setValue(this.data.email);
+      this.profile = (localStorage.getItem('dat-shop-profile'));
+      this.profile = JSON.parse(this.profile);
+    }
   }
 
   onSubmitForm() {

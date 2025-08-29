@@ -267,8 +267,14 @@
       <p> <span class="font-medium">Payment method:</span><span class="capitalize text-violet-700"> {{
           orderData.paymentMethod == 'usdt' ? 'USDT - Crypto' : orderData.paymentMethod }}</span> </p>
 
-      <button class="w-full mt-3 btn-primary" matRipple matRippleColor="#ffffff80" (click)="viewOrder()">View
-        Order</button>
+      <div class="flex flex-col items-center gap-3 sm:flex-row">
+        <button class="w-full mt-3 btn-primary" matRipple matRippleColor="#ffffff80" (click)="viewOrder()">View
+          Order</button>
+
+        <button class="w-full mt-3 btn-outline-primary" matRipple matRippleColor="#ffffff80"
+          (click)="viewOnBSCScan(orderData.txhash)">View
+          on BSCScan</button>
+      </div>
     </div>
 
     <div class="leading-6" *ngIf="!orderData">

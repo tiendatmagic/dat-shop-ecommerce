@@ -67,6 +67,7 @@ export class PlaceOrderComponent {
             "address": res.order.address,
             "note": res.order.note,
             "paymentMethod": res.order.payment,
+            "txhash": res.order.txhash,
             "items": res.items,
             "total": res.total,
             "created_at": res.order.created_at,
@@ -196,8 +197,10 @@ export class PlaceOrderComponent {
             horizontalPosition: 'right',
             verticalPosition: 'bottom', duration: 3000
           });
-          this.router.navigate(['/']);
           console.error(err);
+          if (err && err.code != 100) {
+            this.router.navigate(['/cart']);
+          }
         });
 
       return;
@@ -242,6 +245,10 @@ export class PlaceOrderComponent {
   disconnectWallet() {
     if (this.isProccessing) return;
     this.web3Service.disconnectWallet();
+  }
+
+  viewOnBSCScan(tx: string) {
+    window.open(`https://bscscan.com/tx/${tx}`, '_blank');
   }
 
 
