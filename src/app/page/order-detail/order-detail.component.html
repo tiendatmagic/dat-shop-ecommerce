@@ -95,6 +95,12 @@
               <p> <span class="font-medium">Payment method:</span><span class="capitalize text-violet-700"> {{
                   orderData.order.payment == 'usdt' ? 'USDT - Crypto' : orderData.order.payment}}</span> </p>
             </div>
+
+            <ng-container *ngIf="orderData.order.payment == 'usdt'">
+              <button class="w-full mt-3 btn-outline-primary" matRipple matRippleColor="#ffffff80"
+                (click)="viewOnBSCScan(orderData.order.txhash)">View
+                on BSCScan</button>
+            </ng-container>
           </div>
         </div>
       </div>

@@ -250,8 +250,6 @@ export class PlaceOrderComponent {
   viewOnBSCScan(tx: string) {
     window.open(`https://bscscan.com/tx/${tx}`, '_blank');
   }
-
-
   copyAddress(address: string): void {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(address).then(() => {

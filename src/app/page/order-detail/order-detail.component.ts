@@ -38,4 +38,8 @@ export class OrderDetailComponent {
       this.router.navigate(['/order']);
     }
   }
+
+  viewOnBSCScan(tx: string) {
+    window.open(`https://bscscan.com/tx/${tx}`, '_blank');
+  }
 }

@@ -4,8 +4,8 @@
 
 export const environment = {
   isMobileApp: false,
-  production: false,
-  apiUrl: 'https://bscvv.ddns.net/',
+  production: true,
+  apiUrl: 'https://apidev.miuxmmo.com/tdatshop/',
   apiUrlLocal: 'http://localhost:8000/',
   pusherKey: 'f237e063b074fb0efba8',
   pusherCluster: 'ap1'
