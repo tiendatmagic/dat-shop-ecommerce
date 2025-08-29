@@ -14,6 +14,7 @@ export class OrderDetailComponent {
   orderData: any;
   id: any;
   deliveryFee: number = 0;
+  isLoading: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private http: HttpClient, private auth: AuthService) {
     this.deliveryFee = this.dataService.deliveryFee;
   }
@@ -21,12 +22,15 @@ export class OrderDetailComponent {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
+      this.isLoading = true;
       this.auth.getOrderDetail({ id: this.id }).subscribe(
         (res: any) => {
           this.orderData = res;
+          this.isLoading = false;
         },
         (error: any) => {
           console.error(error);
+          this.isLoading = false;
         }
       )
     }
@@ -34,6 +38,4 @@ export class OrderDetailComponent {
       this.router.navigate(['/order']);
     }
   }
-
-
 }

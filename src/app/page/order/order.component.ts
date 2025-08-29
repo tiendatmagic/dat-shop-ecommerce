@@ -13,16 +13,20 @@ import { AuthService } from '../../services/auth.service';
 export class OrderComponent {
 
   orderData: any;
+  isLoading: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private http: HttpClient, private auth: AuthService) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.auth.getMyOrder().subscribe(
       (res: any) => {
         this.orderData = res;
+        this.isLoading = false;
       },
       (error: any) => {
         console.error(error);
+        this.isLoading = false;
       }
     )
   }

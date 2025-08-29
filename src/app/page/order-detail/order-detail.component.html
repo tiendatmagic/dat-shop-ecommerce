@@ -10,18 +10,23 @@
       </div>
     </div>
 
-    <ng-container *ngIf="!orderData">
+    <ng-container *ngIf="!orderData && isLoading">
       <div class="min-h-40">
         <p class="text-xl font-medium text-center">Please wait...</p>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="orderData">
+    <ng-container *ngIf="orderData && !orderData['items'].length && !isLoading">
+      <div class="min-h-40">
+        <p class="text-xl font-medium text-center">Not found</p>
+      </div>
+    </ng-container>
 
+    <ng-container *ngIf="orderData && orderData['items'].length &&!isLoading">
       <ul role="list" class="divide-y divide-gray-200">
         <li *ngFor="let order of orderData['items']" class="flex py-3">
           <div class="flex-shrink-0 w-16 h-16 overflow-hidden border border-gray-200 rounded-md">
-            <img src="{{ order.image[0] }}" routerLink="/product/{{ order.id }}" alt=""
+            <img src="{{ order.image[0] }}" routerLink="/product/{{ order.product_id }}" alt=""
               class="object-cover object-center w-full h-full" />
           </div>
 
@@ -30,7 +35,7 @@
               <div>
                 <div class="flex justify-between text-base font-medium text-gray-900">
                   <h3>
-                    <a routerLink="/product/{{ order.id }}">{{ order.name }}</a>
+                    <a routerLink="/product/{{ order.product_id }}">{{ order.name }}</a>
                     <p>${{ order.price | number:'1.0-2' }}</p>
                   </h3>
 
@@ -41,7 +46,7 @@
           </div>
         </li>
       </ul>
-      <p> <span class="text-xl font-medium">Total:</span><span class="text-xl text-violet-700"> ${{ orderData.total +
+      <p> <span class="text-xl font-medium">Total:</span><span class="text-xl font-medium"> ${{ orderData.total +
           deliveryFee}}</span> </p>
 
       <div class="mt-5 leading-6" *ngIf="orderData">
@@ -75,7 +80,7 @@
         <p> <span class="font-medium">Payment method:</span><span class="capitalize text-violet-700"> {{
             orderData.order.payment == 'usdt' ? 'USDT - Crypto' : orderData.order.payment}}</span> </p>
       </div>
-
     </ng-container>
+
   </div>
 </div>
