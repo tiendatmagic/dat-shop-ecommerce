@@ -38,7 +38,6 @@ export class HeaderComponent implements OnInit {
       this.cartCount = count;
     });
     this.auth.isLogin$.subscribe((value) => {
-      console.log('value', value);
       this.isLogin = value;
     });
   }

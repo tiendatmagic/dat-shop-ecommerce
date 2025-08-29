@@ -74,7 +74,7 @@
                 <p class="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
               </div>
 
-              <ul role="list" class="-my-6 divide-y divide-gray-200">
+              <ul role="list" class="divide-y divide-gray-200">
                 <li *ngFor="let cart of cartProducts" class="flex py-3">
                   <div class="flex-shrink-0 w-16 h-16 overflow-hidden border border-gray-200 rounded-md">
                     <img src="{{ cart.image }}" routerLink="/product/{{ cart.id }}" alt=""
@@ -102,7 +102,7 @@
 
           <div class="w-full mt-6 lg:w-2/5 xl:w-2/6 sm:mt-8 lg:mt-0">
             <div class="flow-root">
-              <div class="-my-3 divide-y divide-gray-200">
+              <div class="divide-y divide-gray-200">
                 <dl class="flex items-center justify-between gap-4 py-3">
                   <dt class="text-base font-normal text-gray-700">Subtotal</dt>
                   <dd class="text-base font-medium text-gray-900">${{ subtotal | number:'1.0-2' }}</dd>

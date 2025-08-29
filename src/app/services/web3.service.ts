@@ -278,7 +278,6 @@ export class Web3Service {
 
     try {
       const balance: any = await this.contract.methods.balanceOf(address).call();
-      console.log('Balance:', balance.toString());
       return balance.toString();
     } catch (error) {
       console.error('Failed to get token balance:', error);

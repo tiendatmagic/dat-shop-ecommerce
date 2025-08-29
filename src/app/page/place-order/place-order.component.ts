@@ -72,7 +72,6 @@ export class PlaceOrderComponent {
             "created_at": res.order.created_at,
             "status": res.order.status
           }
-          console.log(res);
         },
         (error: any) => {
           console.error(error);
@@ -156,8 +155,6 @@ export class PlaceOrderComponent {
       this.isProccessing = true;
       await this.web3Service.transferUSDT(tokenAddress, merchantAddress, this.total, 18)
         .then((receipt: any) => {
-          console.log('receipt', receipt);
-
           var data = {
             data: {
               ...orderData,
@@ -239,7 +236,7 @@ export class PlaceOrderComponent {
   }
 
   viewOrder() {
-    this.router.navigate(['/order', this.id]);
+    this.router.navigate(['/order-detail', this.id]);
   }
 
   disconnectWallet() {

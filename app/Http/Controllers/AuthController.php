@@ -403,15 +403,52 @@ class AuthController extends BaseController
 
     public function getMyOrder(Request $request)
     {
-        $orders = Orders::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->get();
+        $orders = Orders::where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         foreach ($orders as $order) {
-            $orderItems = OrderItems::where('order_id', $order->id)->get();
+            $orderItems = OrderItems::where('order_id', $order->id)
+                ->join('products', 'products.id', '=', 'order_items.product_id')
+                ->select('order_items.*', 'products.name', 'products.image', 'products.category', 'products.is_best_seller')
+                ->get();
+
+            foreach ($orderItems as $item) {
+                $item->image = json_decode($item->image);
+            }
+
             $total = $orderItems->sum(function ($item) {
                 return $item->quantity * $item->price;
             });
+
             $order->items = $orderItems;
             $order->total = $total;
         }
+
         return response()->json($orders);
+    }
+
+    public function getOrderDetail(Request $request)
+    {
+        $order = Orders::find($request->id);
+
+        $orderItems = OrderItems::where('order_id', $request->id)
+            ->join('products', 'products.id', '=', 'order_items.product_id')
+            ->select('order_items.*', 'products.name', 'products.image', 'products.category', 'products.is_best_seller')
+            ->get();
+
+        foreach ($orderItems as $item) {
+            $item->image = json_decode($item->image);
+        }
+
+        $total = $orderItems->sum(function ($item) {
+            return $item->quantity * $item->price;
+        });
+
+        return response()->json([
+            'order' => $order,
+            'items' => $orderItems,
+            'total' => $total,
+        ]);
     }
 }

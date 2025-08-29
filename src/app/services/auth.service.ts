@@ -237,6 +237,12 @@ export class AuthService {
       catchError((error: any) => this.handleError(error))
     );
   }
+
+  getOrderDetail(data: any) {
+    return this.http.get(`${this.urlEnv}api/order/get-order-detail`, { params: data }).pipe(
+      catchError((error: any) => this.handleError(error))
+    );
+  }
   getMyOrder() {
     return this.http.get(`${this.urlEnv}api/order/get-my-order`).pipe(
       catchError((error: any) => this.handleError(error))

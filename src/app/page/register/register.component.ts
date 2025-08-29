@@ -50,9 +50,7 @@ export class RegisterComponent {
         'email': this.registerForm.value.email,
         'password': this.registerForm.value.password
       };
-      console.log(data);
       this.registerForm.disable();
-
 
       this.auth.onRegister(data).subscribe((res: any) => {
         localStorage.setItem('dat-shop-token', res.access_token);

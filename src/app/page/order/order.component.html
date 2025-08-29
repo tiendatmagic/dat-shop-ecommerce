@@ -23,9 +23,13 @@
           class="flex flex-col items-start justify-between w-full gap-3 py-4 border-b sm:gap-6 sm:items-center sm:flex-row">
           <div class="sm:w-2/4">
             <a class="text-base font-medium sm:text-lg hover:underline text-violet-700"
-              href="/order-detail/{{ order.id }}">{{ order.id
+              routerLink="/order-detail/{{ order.id }}">{{ order.id
               }}</a>
-            <p class="font-medium">Football Jersey X1</p>
+            <p class="font-medium" *ngFor="let item of order.items">
+              <span class="text-gray-500">Name: </span><a routerLink="/product/{{ item.id }}"
+                class="text-violet-700 hover:underline">
+                {{ item.name }}</a>
+            </p>
             <div>
               <div>Total: ${{ order.total }}</div>
               <div>Date: {{ order.created_at | date: "dd/MM/yyyy HH:mm:ss" }}</div>

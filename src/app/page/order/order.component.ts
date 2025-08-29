@@ -17,11 +17,9 @@ export class OrderComponent {
   constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private http: HttpClient, private auth: AuthService) { }
 
   ngOnInit() {
-    console.log(this.orderData);
     this.auth.getMyOrder().subscribe(
       (res: any) => {
         this.orderData = res;
-        console.log(res);
       },
       (error: any) => {
         console.error(error);

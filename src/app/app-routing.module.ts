@@ -12,6 +12,7 @@ import { CollectionComponent } from './page/collection/collection.component';
 import { AboutComponent } from './page/about/about.component';
 import { ProfileComponent } from './page/profile/profile.component';
 import { OrderComponent } from './page/order/order.component';
+import { OrderDetailComponent } from './page/order-detail/order-detail.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'order',
     component: OrderComponent,
+  },
+  {
+    path: 'order-detail/:id',
+    component: OrderDetailComponent,
   },
   {
     path: 'login',
