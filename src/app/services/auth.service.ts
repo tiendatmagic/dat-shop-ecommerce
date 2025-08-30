@@ -195,7 +195,7 @@ export class AuthService {
         localStorage.removeItem("dat-shop-profile");
         localStorage.removeItem("dat-shop-renew");
         localStorage.removeItem("dat-shop-token");
-        this.router.navigate(['/sign-in']);
+        this.router.navigate(['/login']);
         return throwError(error);
       }),
       finalize(() => {
