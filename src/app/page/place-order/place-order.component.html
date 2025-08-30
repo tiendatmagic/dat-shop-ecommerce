@@ -271,8 +271,8 @@
         <button class="w-full mt-3 btn-primary" matRipple matRippleColor="#ffffff80" (click)="viewOrder()">View
           Order</button>
 
-        <button class="w-full mt-3 btn-outline-primary" matRipple matRippleColor="#ffffff80"
-          (click)="viewOnBSCScan(orderData.txhash)">View
+        <button class="w-full mt-3 btn-outline-primary" *ngIf="orderData.paymentMethod == 'usdt'" matRipple
+          matRippleColor="#ffffff80" (click)="viewOnBSCScan(orderData.txhash)">View
           on BSCScan</button>
       </div>
     </div>

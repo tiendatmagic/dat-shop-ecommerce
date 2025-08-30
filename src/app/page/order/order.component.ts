@@ -11,11 +11,13 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './order.component.scss'
 })
 export class OrderComponent {
-
+  deliveryFee: number = 0;
   orderData: any;
   isLoading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private http: HttpClient, private auth: AuthService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private http: HttpClient, private auth: AuthService) {
+    this.deliveryFee = this.dataService.deliveryFee;
+  }
 
   ngOnInit() {
     this.isLoading = true;
