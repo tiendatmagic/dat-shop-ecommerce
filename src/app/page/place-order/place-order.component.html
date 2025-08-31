@@ -76,7 +76,7 @@
 
               <ul role="list" class="divide-y divide-gray-200">
                 <li *ngFor="let cart of cartProducts" class="flex py-3">
-                  <div class="flex-shrink-0 w-16 h-16 overflow-hidden border border-gray-200 rounded-md">
+                  <div class="flex-shrink-0 w-20 overflow-hidden border border-gray-200 rounded-md">
                     <img src="{{ cart.image }}" routerLink="/product/{{ cart.id }}" alt=""
                       class="object-cover object-center w-full h-full" />
                   </div>
@@ -85,10 +85,15 @@
                     <div class="flex flex-col flex-1">
                       <div>
                         <div class="flex justify-between text-base font-medium text-gray-900">
-                          <h3>
+                          <div>
                             <a routerLink="/product/{{ cart.id }}">{{ cart.name }}</a>
                             <p>${{ cart.price | number:'1.0-2' }}</p>
-                          </h3>
+                            <div class="flex flex-col items-start justify-center gap-3 mt-2">
+                              <p class="px-2 border rounded-md sm:px-3 sm:py-1 bg-slate-50">
+                                {{ cart.size}}
+                              </p>
+                            </div>
+                          </div>
 
                           <p>X{{ cart.quantity }}</p>
                         </div>
