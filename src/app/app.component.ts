@@ -40,7 +40,7 @@ export class AppComponent {
   }
   ngOnInit(): void {
     var token = localStorage.getItem('dat-shop-token');
-    const accessPaths = ['my', 'account', 'dashboard', 'admin', 'deposit', 'withdraw', 'event', 'wallet', 'profile', 'order', 'cart', 'checkout', 'order-detail'];
+    const accessPaths = ['my', 'account', 'dashboard', 'admin', 'deposit', 'withdraw', 'event', 'wallet', 'profile', 'order', 'checkout', 'order-detail'];
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {

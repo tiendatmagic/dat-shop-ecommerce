@@ -45,6 +45,16 @@ export class PlaceOrderComponent {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     if (!this.id) {
+      var token = localStorage.getItem('dat-shop-token');
+      if (!token) {
+        this.snackBar.open('Please login first', 'OK', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+        })
+        this.router.navigate(['/login']);
+      }
+
       try {
         const storedCart = localStorage.getItem('cartItems');
         this.cartProducts = storedCart ? JSON.parse(storedCart) : [];

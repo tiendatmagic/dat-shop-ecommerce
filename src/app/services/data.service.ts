@@ -12,7 +12,7 @@ export class DataService {
     {
       id: 1,
       name: 'Football Jersey',
-      price: 1,
+      price: 5,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/b1devpuovnvqwdo8pfia.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/o7kcxzpkbvobb05iu949.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063577/iwopzvmpc5olrt7anheh.jpg'],
       size: ['S', 'M', 'XL', 'XXL'],
       category: 'men',
@@ -39,7 +39,7 @@ export class DataService {
     {
       id: 4,
       name: 'Easy Short',
-      price: 25,
+      price: 10,
       image: ['https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063667/qudc6bwwlvnzfsgmx2ah.jpg', 'https://res.cloudinary.com/dfyykwzsa/image/upload/v1753063667/ocu1bqsqtipqrk1dt61i.jpg'],
       size: ['S', 'M', 'L'],
       category: 'men',
