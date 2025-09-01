@@ -12,7 +12,7 @@ export class AuthService {
   public urlEnv = environment.production ? environment.apiUrl : environment.apiUrlLocal;
   public imgError: string = '/assets/images/default.jpg';
   public getToken = localStorage.getItem('dat-shop-token');
-  public getProfile = localStorage.getItem('profileDatShop');
+  public getProfile = localStorage.getItem('dat-shop-profile');
   public token2FA: string = '';
   private isAdminSubject = new BehaviorSubject<number>(0);
   public isAdmin$ = this.isAdminSubject.asObservable();
