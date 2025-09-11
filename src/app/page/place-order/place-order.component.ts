@@ -71,7 +71,7 @@ export class PlaceOrderComponent {
         (res: any) => {
           this.orderData = {
             "id": res.order.id,
-            "name": res.order.full_name,
+            "name": res.order.full_name || res.order.name,
             "email": res.order.email,
             "phone": res.order.phone,
             "address": res.order.address,
@@ -147,6 +147,8 @@ export class PlaceOrderComponent {
       deliveryFee: this.deliveryFee,
       total: this.total
     };
+
+    if (this.isProccessing) return;
 
     if (!orderData.name || !orderData.email || !orderData.address || !orderData.phone) {
       this.snackBar.open('Please fill in all the required fields.', 'OK', {
