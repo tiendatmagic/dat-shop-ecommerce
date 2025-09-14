@@ -174,7 +174,6 @@ export class Web3Service {
     }
 
     try {
-      // USDT ABI (minimal required for balanceOf)
       const usdtAbi = [
         {
           constant: true,
@@ -185,7 +184,6 @@ export class Web3Service {
         }
       ];
 
-      // Create USDT contract instance
       const contract = new this.web3.eth.Contract(usdtAbi, this.USDT_CONTRACT_ADDRESS);
       const balance: string = await contract.methods['balanceOf'](account).call();
       if (!balance) {
@@ -208,7 +206,7 @@ export class Web3Service {
     this.nativeSymbolSubject.next(chain.symbol);
 
     if (!this.web3 || !window.ethereum) {
-      this.web3 = new Web3(chain.rpcUrls[0]); // Use first RPC URL
+      this.web3 = new Web3(chain.rpcUrls[0]);
     }
 
     if (this.web3 && chain.contractAddress && chain.abi) {
@@ -285,7 +283,7 @@ export class Web3Service {
     }
   }
 
-  async checkInFunc(tokenId: number): Promise<void> {
+  async checkInFunc(tokenId: number): Promise<string | void> {
     if (this.isLoading$.value) return;
     this.setChainInfo();
 
@@ -297,98 +295,84 @@ export class Web3Service {
       this.showModal('Error', 'Please connect your wallet first.', 'error');
       return;
     }
+
     this.isLoading$.next(true);
+
     try {
       const gasPrice = await this.web3.eth.getGasPrice();
 
-      const result = await this.contract.methods.checkIn(tokenId).send({
-        from: this.accountSubject.value,
-        gasPrice
+      return new Promise<string>((resolve, reject) => {
+        this.contract.methods
+          .checkIn(tokenId)
+          .send({
+            from: this.accountSubject.value,
+            gasPrice
+          })
+          .on('transactionHash', (hash: string) => {
+            resolve(hash);
+          })
+          .once('receipt', (receipt: any) => {
+          })
+          .on('error', (err: any) => {
+            this.showModal('Error', 'Check-in failed. Please try again.', 'error');
+            reject(err);
+          })
+          .finally(() => {
+            this.isLoading$.next(false);
+            this.setAccount(this.accountSubject.value);
+          });
       });
-
-      const transactionHash = result.transactionHash;
     } catch (error) {
       console.error('Check-in failed:', error);
       this.showModal('Error', 'Check-in failed. Please try again.', 'error');
-    } finally {
       this.isLoading$.next(false);
+      await this.setAccount(this.accountSubject.value);
     }
-    await this.setAccount(this.accountSubject.value);
   }
+
+
 
   async transferUSDT(
     tokenAddress: string,
     merchantAddress: string,
     amount: number,
     decimals: number
-  ): Promise<any> {
+  ): Promise<string> {
     if (!this.web3 || !this.accountSubject.value) {
-      this.showModal('Error', 'Please connect your wallet first.', 'error');
-      throw new Error('Wallet not connected');
+      return Promise.reject('Wallet not connected');
     }
 
-    try {
-      // Switch to BSC network if not already
-      await this.switchNetwork('0x38');
-
-      // USDT ABI (minimal required for transfer)
-      const usdtAbi = [
-        {
-          constant: false,
-          inputs: [
-            { name: '_to', type: 'address' },
-            { name: '_value', type: 'uint256' }
-          ],
-          name: 'transfer',
-          outputs: [{ name: '', type: 'bool' }],
-          type: 'function'
-        },
-        {
-          constant: true,
-          inputs: [{ name: '_owner', type: 'address' }],
-          name: 'balanceOf',
-          outputs: [{ name: 'balance', type: 'uint256' }],
-          type: 'function'
-        }
-      ];
-
-      // Create contract instance
-      const contract = new this.web3.eth.Contract(usdtAbi, tokenAddress);
-
-      // Convert amount to wei-like format considering decimals
-      const amountInWei = (amount * Math.pow(10, decimals)).toFixed(0);
-
-      // Check balance
-      const balance: string = await contract.methods['balanceOf'](this.accountSubject.value).call();
-      if (!balance) {
-        this.showModal('Error', 'Failed to retrieve balance.', 'error');
-        throw new Error('Failed to retrieve balance');
+    const usdtAbi = [
+      {
+        constant: false,
+        inputs: [
+          { name: '_to', type: 'address' },
+          { name: '_value', type: 'uint256' }
+        ],
+        name: 'transfer',
+        outputs: [{ name: '', type: 'bool' }],
+        type: 'function'
       }
+    ];
 
-      if (BigInt(balance) < BigInt(amountInWei)) {
-        this.showModal('Error', 'Insufficient USDT balance.', 'error');
-        throw new Error('Insufficient USDT balance');
-      }
+    const contract: any = new this.web3.eth.Contract(usdtAbi, tokenAddress);
+    const amountInWei = (BigInt(Math.floor(amount * Math.pow(10, decimals)))).toString();
 
-      // Estimate gas
-      const gasPrice = await this.web3.eth.getGasPrice();
-      const gasEstimate = await contract.methods['transfer'](merchantAddress, amountInWei)
-        .estimateGas({ from: this.accountSubject.value });
-
-      // Send transaction
-      const receipt = await contract.methods['transfer'](merchantAddress, amountInWei)
-        .send({
-          from: this.accountSubject.value,
-          gas: gasEstimate.toString(),
-          gasPrice: gasPrice.toString()
+    return new Promise<string>((resolve, reject) => {
+      contract.methods
+        .transfer(merchantAddress, amountInWei)
+        .send({ from: this.accountSubject.value })
+        .on('transactionHash', (hash: string) => {
+          resolve(hash);
+        })
+        .once('receipt', (receipt: any) => {
+        })
+        .on('error', (err: any) => {
+          reject(err);
         });
-
-      return receipt;
-    } catch (error: any) {
-      this.showModal('Error', `Transaction failed: ${error.message}`, 'error');
-      throw error;
-    }
+    });
   }
+
 
   showModal(
     title: string,

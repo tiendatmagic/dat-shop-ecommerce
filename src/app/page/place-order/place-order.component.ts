@@ -171,7 +171,7 @@ export class PlaceOrderComponent {
           var data = {
             data: {
               ...orderData,
-              transactionHash: receipt.transactionHash,
+              transactionHash: receipt,
               amount: this.total,
               from: this.account,
               to: merchantAddress,
